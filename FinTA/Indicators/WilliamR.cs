@@ -50,12 +50,12 @@ namespace FinTA.Indicators
                     Value = williamR
                 });
 
-                FileLogWriter looger = new FileLogWriter();
-                looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2}", highestHigh,
-                              lowestLow,
-                              williamR),
-                              "FinTA"
-                    );
+                //FileLogWriter looger = new FileLogWriter();
+                //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2}", highestHigh,
+                //              lowestLow,
+                //              williamR),
+                //              "FinTA"
+                //    );
             }
 
              return resultData;

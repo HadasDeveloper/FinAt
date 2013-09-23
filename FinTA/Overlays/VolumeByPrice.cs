@@ -57,9 +57,15 @@ namespace FinTA.Overlays
                         blocks[i].PosNegVolue.Add(volume[mdIndex]*multiplier);
                         
                         if(blocks[i].PosNegVolue[j] > 0)
+                        {    
                             posVbp = posVbp + blocks[i].PosNegVolue[j];
+                            negVbp = 0;
+                        }
                         else
+                        {    
                             negVbp = negVbp + blocks[i].PosNegVolue[j];
+                            posVbp = 0;
+                        }
                         
                         mdIndex++;
                     }
@@ -81,7 +87,7 @@ namespace FinTA.Overlays
                   resultData.Add(new IndicatorsData
                   {
                       Instrument = marketdata[i].Instrument,
-                      Date = dates[i],
+                      Date = blocks[i].Date[j],
                       Indicatore = "NegVolumeByPrice",
                       Value = blocks[i].NegVbp
                   });
@@ -89,22 +95,22 @@ namespace FinTA.Overlays
                   resultData.Add(new IndicatorsData
                   {
                       Instrument = marketdata[i].Instrument,
-                      Date = dates[i],
+                      Date = blocks[i].Date[j],
                       Indicatore = "PosVolumeByPrice",
                       Value = blocks[i].PosVbp
                   });
 
-                  FileLogWriter looger = new FileLogWriter();
-                  looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}", blocks[i].BlockNum,
-                                blocks[i].Date[j],
-                                blocks[i].Price[j],
-                                blocks[i].Volume[j],
-                                blockRange,
-                                blocks[i].TotalVbp,
-                                blocks[i].PosNegVolue[j],
-                                blocks[i].NegVbp,
-                                blocks[i].PosVbp),
-                                "FinTA");
+                  //FileLogWriter looger = new FileLogWriter();
+                  //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}", blocks[i].BlockNum,
+                  //              blocks[i].Date[j],
+                  //              blocks[i].Price[j],
+                  //              blocks[i].Volume[j],
+                  //              blockRange,
+                  //              blocks[i].TotalVbp,
+                  //              blocks[i].PosNegVolue[j],
+                  //              blocks[i].NegVbp,
+                  //              blocks[i].PosVbp),
+                  //              "FinTA");
 
               }
 
