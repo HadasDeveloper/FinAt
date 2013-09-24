@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class PercentageVolumeOscillator
+    public class PercentageVolumeOscillator
     {
         private readonly List<MarketData> marketdata;
         private readonly int period1;
@@ -28,8 +28,14 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> volume = marketdata.Select(mdata => (double)mdata.Volume).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();    
+            List<double> volume = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData data in marketdata)
+            {
+                volume.Add(data.ClosePrice);
+                dates.Add(data.Date);
+            }
 
             PercentageOscillator po = new PercentageOscillator(volume, period1, period2, period3);
             DataTable pvo =  po.Calculate("0");

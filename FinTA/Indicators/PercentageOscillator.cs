@@ -4,7 +4,7 @@ using FinTA.Overlays;
 
 namespace FinTA.Indicators
 {
-    class PercentageOscillator
+    public class PercentageOscillator
     {
         private readonly List<double > data;
         private readonly int period1;
@@ -33,6 +33,7 @@ namespace FinTA.Indicators
         {
             SimpleMovingAverage sma = new SimpleMovingAverage();
             ExponentialMovingAverage ema = new ExponentialMovingAverage();
+
             double[] emaPeriod1 = ema.Calculate(data, sma.Calculate(data, period1), //12 days ema(close peice)
                                                  2/((double) period1 + 1), period1);
             double[] emaPeriod2 = ema.Calculate(data, sma.Calculate(data, period2), //26 days ema(close peice)

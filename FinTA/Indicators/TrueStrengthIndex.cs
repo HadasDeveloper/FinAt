@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class TrueStrengthIndex
+    public class TrueStrengthIndex
     {
         private readonly List<MarketData> marketdata;
         private readonly int period1;
@@ -26,13 +26,16 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+            List<double> closedPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
             List<double> change = new List<double>();
             List<double> abcChange = new List<double>();
             
             for (int i = 0; i < marketdata.Count; i++)
             {
+                closedPrice.Add(marketdata[i].ClosePrice);
+                dates.Add(marketdata[i].Date);
+
                 change.Add(i == 0 ? 0 : closedPrice[i] - closedPrice[i - 1]);
                 abcChange.Add(Math.Abs(change[i]));
             }

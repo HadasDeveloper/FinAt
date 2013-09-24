@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class MovingAverageConvergenceDivergence
+    public class MovingAverageConvergenceDivergence
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();

@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class RelativeStrengthIndex
+    public class RelativeStrengthIndex
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -23,9 +23,15 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
-            
+            List<double> closedPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData data in marketdata)
+            {
+                closedPrice.Add(data.ClosePrice);
+                dates.Add(data.Date);
+            }
+
             double[] change = new double[marketdata.Count];
             List<double> loss = new List<double>();
             List<double> gain = new List<double>();

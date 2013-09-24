@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class CommodityChannelIndex
+    public class CommodityChannelIndex
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

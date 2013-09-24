@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class AverageDirectionalIndex
+    public class AverageDirectionalIndex
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class WilliamR
+    public class WilliamR
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -25,10 +25,19 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<double> highPrice = marketdata.Select(mdata => mdata.HighPrice).ToList();
-            List<double> lowPrice = marketdata.Select(mdata => mdata.LowPrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+            List<double> closedPrice = new List<double>();
+            List<double> highPrice = new List<double>();
+            List<double> lowPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData data in marketdata)
+            {
+                closedPrice.Add(data.ClosePrice);
+                highPrice.Add(data.HighPrice);
+                lowPrice.Add(data.LowPrice);
+                dates.Add(data.Date);
+            }
+
 
             double highestHigh;
             double lowestLow;

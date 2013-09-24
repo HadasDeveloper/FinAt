@@ -6,7 +6,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class NegativeVolumeIndex
+    public class NegativeVolumeIndex
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();

@@ -5,7 +5,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class BollingerBands
+    public class BollingerBands
     {
         private readonly List<MarketData> marketdata;
         private readonly int numberOfStd;

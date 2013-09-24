@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class VortexIndicator
+    public class VortexIndicator
     {
         private readonly List<MarketData> marketdata;
         private readonly int period;
@@ -23,10 +23,19 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<double> highPrice = marketdata.Select(mdata => mdata.HighPrice).ToList();
-            List<double> lowPrice = marketdata.Select(mdata => mdata.LowPrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+
+            List<double> closedPrice = new List<double>();
+            List<double> highPrice = new List<double>();
+            List<double> lowPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData data in marketdata)
+            {
+                closedPrice.Add(data.ClosePrice);
+                highPrice.Add(data.HighPrice);
+                lowPrice.Add(data.LowPrice);
+                dates.Add(data.Date);
+            }
 
             List<double> positiveMovement = new List<double>();
             List<double> negativeMovement = new List<double>();
@@ -34,8 +43,6 @@ namespace FinTA.Indicators
             List<double> periodicNegativeMovement = new List<double>();
             List<double> trueRange = new List<double>();
             List<double> periodicTrueRange = new List<double>();
-            double normalizedPositiveMovement;
-            double normalizedNegativeMovement;
 
             for (int i = 0 ; i < marketdata.Count; i++)
             {
@@ -54,8 +61,8 @@ namespace FinTA.Indicators
             for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count ; i++)
             {
                
-                normalizedPositiveMovement = (periodicTrueRange[i]== 0 ? 0 : periodicPositiveMovement[i] / periodicTrueRange[i]);
-                normalizedNegativeMovement = (periodicTrueRange[i] == 0 ? 0 : periodicNegativeMovement[i] / periodicTrueRange[i]);
+                double normalizedPositiveMovement = (periodicTrueRange[i]== 0 ? 0 : periodicPositiveMovement[i] / periodicTrueRange[i]);
+                double normalizedNegativeMovement = (periodicTrueRange[i] == 0 ? 0 : periodicNegativeMovement[i] / periodicTrueRange[i]);
 
                 resultData.Add(new IndicatorsData
                 {

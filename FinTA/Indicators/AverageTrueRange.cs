@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class AverageTrueRange
+    public class AverageTrueRange
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

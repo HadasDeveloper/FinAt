@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class ChandelierExitShort
+    public class ChandelierExitShort
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

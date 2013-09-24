@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FinTA.Models
 {
-    class VolumeByPriceBlock
+    public class VolumeByPriceBlock
     {
         public List<DateTime> Date { get; set; }
         public List<double> Price { get; set; }

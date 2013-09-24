@@ -2,7 +2,7 @@
 
 namespace FinTA.Overlays
 {
-    class ExponentialMovingAverage
+    public class ExponentialMovingAverage
     {
         public double[] Calculate(List<double> value, double[] sma, double multiplier, int rang)
         {

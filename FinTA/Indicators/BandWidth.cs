@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class BandWidth
+    public class BandWidth
     {
 
         private readonly List<MarketData> marketdata;

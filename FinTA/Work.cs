@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA
 {
-    class Work
+    public class Work
     {
         private List<List<MarketData>> allInstrumentsData = new List<List<MarketData>>();
         private List<IndicatorsData> resultData = new List<IndicatorsData>();

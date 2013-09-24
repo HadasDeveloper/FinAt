@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class StochasticOscillator
+    public class StochasticOscillator
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -23,11 +23,19 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<double> highprice = marketdata.Select(mdata => mdata.HighPrice).ToList();
-            List<double> lowprice = marketdata.Select(mdata => mdata.LowPrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+            List<double> closedPrice = new List<double>();
+            List<double> highprice = new List<double>();
+            List<double> lowprice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
 
+            foreach (MarketData data in marketdata)
+            {
+                closedPrice.Add(data.ClosePrice);
+                highprice.Add(data.HighPrice);
+                lowprice.Add(data.LowPrice);
+                dates.Add(data.Date);
+            }
+            
             double[] highestHigh = new double[marketdata.Count];
             double[] lowestLow = new double[marketdata.Count];
             double[] stochasticOscillator = new double[marketdata.Count];

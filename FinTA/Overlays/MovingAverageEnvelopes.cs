@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class MovingAverageEnvelopes
+    public class MovingAverageEnvelopes
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

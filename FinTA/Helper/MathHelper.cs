@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FinTA.Helper
 {
-    class MathHelper
+    public class MathHelper
     {
         public double FindMax(List<double> values)
         {

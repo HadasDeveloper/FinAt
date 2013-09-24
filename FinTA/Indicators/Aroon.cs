@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class Aroon
+    public class Aroon
     {
 
         private readonly List<MarketData> marketdata;

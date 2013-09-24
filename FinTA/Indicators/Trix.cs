@@ -9,7 +9,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class Trix
+    public class Trix
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();

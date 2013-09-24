@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class VolumeByPrice
+    public class VolumeByPrice
     {
         private readonly List<MarketData> marketdata;
         private readonly int numOfBlocks;

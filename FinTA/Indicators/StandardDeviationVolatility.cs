@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class StandardDeviationVolatility
+    public class StandardDeviationVolatility
     {
         
         private readonly List<MarketData> marketdata;
@@ -24,9 +24,16 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-           
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+
+            List<double> closedPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData data in marketdata)
+            {
+                closedPrice.Add(data.ClosePrice);
+                dates.Add(data.Date);
+            }
+
             double[] periodAverage = new double[marketdata.Count];
             double[] deviation = new double[marketdata.Count];
             List<double> deviationSquared = new List<double>();

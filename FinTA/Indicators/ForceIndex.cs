@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class ForceIndex
+    public class ForceIndex
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -42,7 +42,7 @@ namespace FinTA.Indicators
             {
                 upDown[i] = i == 0 ? 0 : (closedPrice[i] - closedPrice[i - 1]) > 0 ? 1 : -1; 
                 extent[i] =  i == 0 ? 0 : closedPrice[i] - closedPrice[i - 1];
-                forceIndex.Add(extent[i]*(double)volume[i]);
+                forceIndex.Add(extent[i]*volume[i]);
             }
 
             SimpleMovingAverage sma = new SimpleMovingAverage();

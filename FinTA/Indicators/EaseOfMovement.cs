@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class EaseOfMovement
+    public class EaseOfMovement
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

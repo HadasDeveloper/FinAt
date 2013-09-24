@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class BIndicator
+    public class BIndicator
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

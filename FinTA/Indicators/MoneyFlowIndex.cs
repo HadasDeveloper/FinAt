@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class MoneyFlowIndex
+    public class MoneyFlowIndex
     { 
         private readonly List<MarketData> marketdata;
         private readonly int period;

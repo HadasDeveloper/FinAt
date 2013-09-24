@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FinTA.Overlays
 {
-    class StandardDeviation
+    public class StandardDeviation
     {
         public double[] Calculate(List<double> values, double[] sma, int range)
         {

@@ -6,7 +6,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class VolumeWeightedAveragePrice
+    public class VolumeWeightedAveragePrice
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();

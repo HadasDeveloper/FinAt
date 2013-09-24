@@ -6,7 +6,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class AccumulationDistributionLine
+    public class AccumulationDistributionLine
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();

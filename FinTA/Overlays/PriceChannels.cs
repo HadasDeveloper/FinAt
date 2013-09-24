@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class PriceChannels
+    public class PriceChannels
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;

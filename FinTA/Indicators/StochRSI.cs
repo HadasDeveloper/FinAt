@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class StochRSI
+    public class StochRSI
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -29,8 +29,11 @@ namespace FinTA.Indicators
             RelativeStrengthIndex rsiData = new RelativeStrengthIndex(marketdata , 14);
             List<IndicatorsData> rsiTable = rsiData.Calculate("0");
 
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+             List<DateTime> dates = new List<DateTime>();
 
+            foreach (MarketData data in marketdata)
+                dates.Add(data.Date);
+        
             foreach (IndicatorsData data in rsiTable)
                 rsi.Add(data.Value);
             

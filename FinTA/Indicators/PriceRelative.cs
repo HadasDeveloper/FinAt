@@ -7,7 +7,7 @@ using Logger;
 
 namespace FinTA.Indicators
 {
-    class PriceRelative
+    public class PriceRelative
     {
     
         private readonly List<MarketData> marketdata;

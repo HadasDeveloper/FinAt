@@ -6,7 +6,7 @@ using Logger;
 
 namespace FinTA.Overlays
 {
-    class MovingAverages
+    public class MovingAverages
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
