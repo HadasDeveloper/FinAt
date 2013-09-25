@@ -10,11 +10,13 @@ namespace FinTA.Indicators
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();
+        private readonly int daysToGoBack;
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
 
-        public AccumulationDistributionLine(List<MarketData> marketdata)
+        public AccumulationDistributionLine(List<MarketData> marketdata, int daysToGoBack)
         {
-            this.marketdata = marketdata;     
+            this.marketdata = marketdata;
+            this.daysToGoBack = daysToGoBack;
         }
 
         public List<IndicatorsData> Calculate(string mode)
@@ -23,15 +25,31 @@ namespace FinTA.Indicators
             List<double> highPrice = new List<double>();
             List<double> lowPrice = new List<double>();
             List<double> volume = new List<double>();
-            List<DateTime> dates = new List<DateTime>();    
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+            switch (mode)
             {
-                closedPrice.Add(mdata.ClosePrice);
-                highPrice.Add(mdata.HighPrice);
-                lowPrice.Add(mdata.LowPrice);
-                volume.Add(mdata.Volume);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);
+                        closedPrice.Add(mdata.ClosePrice);
+                        volume.Add(mdata.Volume);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                        volume.Add(marketdata[i].Volume);
+                    }
+                    break;
             }
 
             double[] moneyFolowMultiplier = new double[marketdata.Count];

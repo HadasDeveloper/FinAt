@@ -22,12 +22,26 @@ namespace FinTA.Overlays
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> closedPrice = new List<double>();
-            List<DateTime> dates = new List<DateTime>();    
+            List<DateTime> dates = new List<DateTime>();
 
-            for(int i = 0 ; i < marketdata.Count ; i++)
+
+            switch (mode)
             {
-                closedPrice.Add(marketdata[i].ClosePrice);
-                dates.Add(marketdata[i].Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack - 1 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
 
             double multiplier =  (2 / ((double)daysToGoBack + 1));

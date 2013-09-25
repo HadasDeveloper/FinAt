@@ -24,13 +24,28 @@ namespace FinTA.Indicators
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> closedPrice = new List<double>();
-            List<DateTime> dates = new List<DateTime>();   
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
-            {    
-                closedPrice.Add(mdata.ClosePrice);
-                dates.Add(mdata.Date);
+
+            switch (mode)
+            {
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);                      
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - frames.Roc4 - frames.Sma4 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
+
 
             List<double> roc1 = new List<double>();
             List<double> roc2 = new List<double>();

@@ -24,12 +24,25 @@ namespace FinTA.Indicators
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> tp = new List<double>();
-            List<DateTime> dates = new List<DateTime>();    
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+            switch (mode)
             {
-                tp.Add((mdata.ClosePrice + mdata.HighPrice + mdata.LowPrice) / 3);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        tp.Add((mdata.ClosePrice + mdata.HighPrice + mdata.LowPrice) / 3);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        tp.Add((marketdata[i].ClosePrice + marketdata[i].HighPrice + marketdata[i].LowPrice) / 3);
+                    }
+                    break;
             }
             
             SimpleMovingAverage sma = new SimpleMovingAverage();

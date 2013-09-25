@@ -27,94 +27,99 @@ namespace FinTA
                 looger.WriteToLog(DateTime.Now, string.Format("----------   {0}   -----------", data[0].Instrument), "TimeTest-FinTA");
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} BollingerBands", DateTime.Now), "TimeTest-FinTA");
 
-                BollingerBands bollingerBands = new BollingerBands(data, 2, 20);    //Done new
+                BollingerBands bollingerBands = new BollingerBands(data, 2, 20);
                 resultData.AddRange(bollingerBands.Calculate(mode));
 
-                looger.WriteToLog(DateTime.Now, string.Format("{0: fff} chandelierExitShort", DateTime.Now), "TimeTest-FinTA");
+                looger.WriteToLog(DateTime.Now, string.Format("{0: fff} chandelierExit", DateTime.Now), "TimeTest-FinTA");
 
-                ChandelierExitShort chandelierExitShort = new ChandelierExitShort(data, 22, 3); //Done new
-                resultData.AddRange(chandelierExitShort.Calculate(mode));
+                ChandelierExit chandelierExit = new ChandelierExit(data, 22, 3);
+                resultData.AddRange(chandelierExit.Calculate(mode));
 
-                looger.WriteToLog(DateTime.Now, string.Format("{0: fff} ChandelierExitLong", DateTime.Now), "TimeTest-FinTA");
+                //looger.WriteToLog(DateTime.Now, string.Format("{0: fff} chandelierExitShort", DateTime.Now), "TimeTest-FinTA");
 
-                ChandelierExitLong chandelierExitLong = new ChandelierExitLong(data, 22, 3); //Done new
-                resultData.AddRange(chandelierExitLong.Calculate(mode));
+                //ChandelierExitShort chandelierExitShort = new ChandelierExitShort(data, 22, 3);
+                //resultData.AddRange(chandelierExitShort.Calculate(mode));
+
+                //looger.WriteToLog(DateTime.Now, string.Format("{0: fff} ChandelierExitLong", DateTime.Now), "TimeTest-FinTA");
+
+                //ChandelierExitLong chandelierExitLong = new ChandelierExitLong(data, 22, 3);
+                //resultData.AddRange(chandelierExitLong.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} MovingAverages", DateTime.Now), "TimeTest-FinTA");
 
-                MovingAverages movingAverages = new MovingAverages(data, 10);    //new Done
+                MovingAverages movingAverages = new MovingAverages(data, 10);
                 resultData.AddRange(movingAverages.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} MovingAverageEnvelopes", DateTime.Now), "TimeTest-FinTA");
 
-                MovingAverageEnvelopes movingAverageEnvelopes = new MovingAverageEnvelopes(data, 20, 2.5); //Done new
+                MovingAverageEnvelopes movingAverageEnvelopes = new MovingAverageEnvelopes(data, 20, 2.5);
                 resultData.AddRange(movingAverageEnvelopes.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} PriceChannels", DateTime.Now), "TimeTest-FinTA");
 
-                PriceChannels priceChannels = new PriceChannels(data, 20);    //Done new 
+                PriceChannels priceChannels = new PriceChannels(data, 20);
                 resultData.AddRange(priceChannels.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} VolumeByPrice", DateTime.Now), "TimeTest-FinTA");
 
-                VolumeByPrice volumebyPrice = new VolumeByPrice(data, 12); //Done new - Is the calculation correct??? //not work on small amount of data (like 78 rows) the rows not divided into 12 blocks
+                VolumeByPrice volumebyPrice = new VolumeByPrice(data, 12); // - Is the calculation correct??? //not work on small amount of data (like 78 rows) the rows not divided into 12 blocks
                 resultData.AddRange(volumebyPrice.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} VolumeWeightedAveragePrice",DateTime.Now), "TimeTest-FinTA");
 
-                VolumeWeightedAveragePrice volumeWeightedAveragePrice = new VolumeWeightedAveragePrice(data);   //Done new
+                VolumeWeightedAveragePrice volumeWeightedAveragePrice = new VolumeWeightedAveragePrice(data,79); 
                 resultData.AddRange(volumeWeightedAveragePrice.Calculate(mode));
 
                 //-------------   Indicators   --------------
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} AccumulationDistributionLine",DateTime.Now), "TimeTest-FinTA");
 
-                AccumulationDistributionLine accumulationDistributionLine = new AccumulationDistributionLine(data); //Done new
+                AccumulationDistributionLine accumulationDistributionLine = new AccumulationDistributionLine(data,79); 
                 resultData.AddRange(accumulationDistributionLine.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} Aroon",DateTime.Now), "TimeTest-FinTA");
 
-                Aroon aroon = new Aroon(data, 25); //Done  new - Is the calculation correct???
+                Aroon aroon = new Aroon(data, 25); // - Is the calculation correct???
                 resultData.AddRange(aroon.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} AverageDirectionalIndex",DateTime.Now), "TimeTest-FinTA");
 
-                AverageDirectionalIndex averageDirectionalIndex = new AverageDirectionalIndex(data, 14); //Done new
+                AverageDirectionalIndex averageDirectionalIndex = new AverageDirectionalIndex(data, 14); 
                 resultData.AddRange(averageDirectionalIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} AverageTrueRange",DateTime.Now), "TimeTest-FinTA");
 
-                AverageTrueRange averageTrueRange = new AverageTrueRange(data, 14); // Done new 
+                AverageTrueRange averageTrueRange = new AverageTrueRange(data, 14); 
                 resultData.AddRange(averageTrueRange.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} BandWidth",DateTime.Now), "TimeTest-FinTA");
 
-                BandWidth bandWidth = new BandWidth(data, 2, 20); //Done new 
+                BandWidth bandWidth = new BandWidth(data, 2, 20); 
                 resultData.AddRange(bandWidth.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} BIndicator",DateTime.Now), "TimeTest-FinTA");
 
-                BIndicator bIndicator = new BIndicator(data, 2, 20); //Done new
+                BIndicator bIndicator = new BIndicator(data, 2, 20); 
                 resultData.AddRange(bIndicator.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} CommodityChannelIndex",DateTime.Now), "TimeTest-FinTA");
 
-                CommodityChannelIndex commodityChannelIndex = new CommodityChannelIndex(data, 20); //Done new 
+                CommodityChannelIndex commodityChannelIndex = new CommodityChannelIndex(data, 20); 
                 resultData.AddRange(commodityChannelIndex.Calculate(mode));
                 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} EaseOfMovement",DateTime.Now), "TimeTest-FinTA");
 
-                EaseOfMovement easeOfMovement = new EaseOfMovement(data, 14); //Done new
+                EaseOfMovement easeOfMovement = new EaseOfMovement(data, 14);
                 resultData.AddRange(easeOfMovement.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} ForceIndex",DateTime.Now), "TimeTest-FinTA");
 
-                ForceIndex forceIndex = new ForceIndex(data, 13);  //Done new
+                ForceIndex forceIndex = new ForceIndex(data, 13);  
                 resultData.AddRange(forceIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} KnowSureThing",DateTime.Now), "TimeTest-FinTA");
 
-                KnowSureThing knowSureThing = new KnowSureThing(data);    //Done new 
+                KnowSureThing knowSureThing = new KnowSureThing(data); 
                 resultData.AddRange(knowSureThing.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} MassIndex",DateTime.Now), "TimeTest-FinTA");

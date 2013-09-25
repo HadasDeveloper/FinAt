@@ -22,11 +22,41 @@ namespace FinTA.Overlays
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<MarketData> orderedData = marketdata.OrderBy(mdata => mdata.ClosePrice).ToList(); //work correctly
 
-            List<double> closedPrice = orderedData.Select(mdata => mdata.ClosePrice).ToList();
-            List<double> volume = orderedData.Select(mdata => (double)mdata.Volume).ToList();
-            List<DateTime> dates = orderedData.Select(mdata => mdata.Date).ToList();
+            List<MarketData> orderedData = new List<MarketData>();
+
+            switch (mode)
+            {
+                case "0" : orderedData = marketdata.OrderBy(mdata => mdata.ClosePrice).ToList(); //work correctly
+                    break;
+
+                case "1":
+                    
+                    //one day back
+                    DateTime minDate = marketdata[marketdata.Count - 1].Date.AddDays(-1);                                      
+                    List<MarketData> temp = new List<MarketData>();
+                    
+                    for(int i = marketdata.Count-1 ; i>=0 ; i-- )
+                        if(marketdata[i].Date > minDate)
+                            temp.Add(marketdata[i]);
+                        else
+                            break;
+
+                    orderedData = temp.OrderBy(mdata => mdata.ClosePrice).ToList(); 
+
+                    break;
+            }
+
+            List<double> closedPrice = new List<double>();
+            List<double> volume = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            foreach (MarketData mdata in orderedData)
+            {
+                dates.Add(mdata.Date);
+                volume.Add(mdata.Volume);
+                closedPrice.Add(mdata.ClosePrice);
+            }
 
             double blockRange = (closedPrice[closedPrice.Count-1] - closedPrice[0])/numOfBlocks; //divide into 12 blocks
             VolumeByPriceBlock[] blocks = new VolumeByPriceBlock[numOfBlocks];

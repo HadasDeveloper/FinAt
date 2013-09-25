@@ -25,13 +25,27 @@ namespace FinTA.Indicators
         {
             List<double> highPrice = new List<double>();
             List<double> lowPrice = new List<double>();
-            List<DateTime> dates = new List<DateTime>();  
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+            switch (mode)
             {
-                highPrice.Add(mdata.HighPrice);
-                lowPrice.Add(mdata.LowPrice);
-                dates.Add(mdata.Date);                
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);   
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                    }
+                    break;
             }
 
             double[] periodHigh = new double[marketdata.Count];

@@ -25,14 +25,29 @@ namespace FinTA.Indicators
         {
             List<double> closedPrice = new List<double>();
             List<double> volume = new List<double>();
-            List<DateTime> dates = new List<DateTime>(); 
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+            switch (mode)
             {
-                closedPrice.Add(mdata.ClosePrice);
-                volume.Add(mdata.Volume);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        volume.Add(mdata.Volume);                        
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack - 1; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        volume.Add(marketdata[i].Volume);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
+
 
             double[] upDown = new double[marketdata.Count];
             double[] extent = new double[marketdata.Count];

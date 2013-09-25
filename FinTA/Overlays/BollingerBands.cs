@@ -25,11 +25,26 @@ namespace FinTA.Overlays
             List<DateTime> dates = new List<DateTime>();    
             List<double> closedPrice = new List<double>();
 
-            foreach (MarketData mdata in marketdata)
+
+            switch (mode)
             {
-                dates.Add(mdata.Date);
-                closedPrice.Add(mdata.ClosePrice); 
+                
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case   "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
+    
 
             SimpleMovingAverage simpleMovingAverage = new SimpleMovingAverage();
             double[] sma = simpleMovingAverage.Calculate(closedPrice, daysToGoBack);

@@ -11,7 +11,7 @@ namespace FinTA.Overlays
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
-        private readonly double[] envelope;
+        private readonly double envelope;
         public readonly DataTable Data = new DataTable();
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
 
@@ -19,17 +19,34 @@ namespace FinTA.Overlays
         {
             this.marketdata = marketdata;
             this.daysToGoBack = daysToGoBack;
-            this.envelope = new double[marketdata.Count];
-
-            for (int i = 0; i < marketdata.Count; i++)
-                this.envelope[i] = i < daysToGoBack - 1 ? 0 :(double)envelope / 100;
-            
+            this.envelope = envelope / 100; ;                      
         }
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> closedPrice = marketdata.Select(mdata => mdata.ClosePrice).ToList();
-            List<DateTime> dates = marketdata.Select(mdata => mdata.Date).ToList();
+            List<double> closedPrice = new List<double>();
+            List<DateTime> dates = new List<DateTime>();
+
+            switch (mode)
+            {
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);  
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack ; i < marketdata.Count ; i++)
+                    {
+                        dates.Add(marketdata[i].Date);                       
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
+            }
+
+
 
             SimpleMovingAverage simpleMovingAverage = new SimpleMovingAverage();
             double[] sma = simpleMovingAverage.Calculate(closedPrice, daysToGoBack);
@@ -38,8 +55,8 @@ namespace FinTA.Overlays
 
             for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
             {
-                uEnvelope[i] = sma[i] + (sma[i]*envelope[i]);
-                lEnvelope[i] = sma[i] - (sma[i]*envelope[i]);
+                uEnvelope[i] = sma[i] + (sma[i]*envelope);
+                lEnvelope[i] = sma[i] - (sma[i]*envelope);
 
                 resultData.Add(new IndicatorsData
                 {

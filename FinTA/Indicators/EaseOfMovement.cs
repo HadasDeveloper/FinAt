@@ -29,12 +29,28 @@ namespace FinTA.Indicators
             List<double> emv = new List<double>();
             List<DateTime> dates = new List<DateTime>();    
 
-            foreach (MarketData mdata in marketdata)
+            
+            switch (mode)
             {
-                volume.Add(mdata.Volume);
-                highPrice.Add(mdata.HighPrice);
-                lowPrice.Add(mdata.LowPrice);
-                dates.Add(mdata.Date); 
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);
+                        volume.Add(mdata.Volume);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        volume.Add(marketdata[i].Volume);
+                    }
+                    break;
             }
 
 

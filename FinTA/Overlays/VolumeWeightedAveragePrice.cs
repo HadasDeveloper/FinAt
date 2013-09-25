@@ -9,12 +9,15 @@ namespace FinTA.Overlays
     public class VolumeWeightedAveragePrice
     {
         private readonly List<MarketData> marketdata;
-        public readonly DataTable Data = new DataTable();
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
+        private readonly int daysToGoBack;
+        public readonly DataTable Data = new DataTable();
+        
 
-        public VolumeWeightedAveragePrice(List<MarketData> marketdata)
+        public VolumeWeightedAveragePrice(List<MarketData> marketdata, int daysToGoBack)
         {
             this.marketdata = marketdata;
+            this.daysToGoBack = daysToGoBack;
         }
 
         public List<IndicatorsData> Calculate(string mode)
@@ -33,6 +36,32 @@ namespace FinTA.Overlays
                 volume.Add(mdata.Volume);
                 dates.Add(mdata.Date);
             }
+
+            switch (mode)
+            {
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);
+                        closedPrice.Add(mdata.ClosePrice);
+                        volume.Add(mdata.Volume);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count ; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                        volume.Add(marketdata[i].Volume);
+                    }
+                    break;
+            }
+
 
             double[] typicalPrice = new double[marketdata.Count];
             double[] pv = new double[marketdata.Count];
