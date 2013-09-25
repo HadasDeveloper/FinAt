@@ -28,12 +28,27 @@ namespace FinTA.Indicators
             List<double> lowprice = new List<double>();
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
+            switch (mode)
             {
-                closedPrice.Add(data.ClosePrice);
-                highprice.Add(data.HighPrice);
-                lowprice.Add(data.LowPrice);
-                dates.Add(data.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowprice.Add(mdata.LowPrice);
+                        highprice.Add(mdata.HighPrice);
+                        closedPrice.Add(mdata.ClosePrice);                       
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowprice.Add(marketdata[i].LowPrice);
+                        highprice.Add(marketdata[i].LowPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
             
             double[] highestHigh = new double[marketdata.Count];

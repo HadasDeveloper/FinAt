@@ -32,17 +32,40 @@ namespace FinTA.Indicators
             List<double> comparativeClosedPrice = new List<double>();
 
             int j = 0;
-            for (int i = 0; i < marketdata.Count; i++)
-                for ( ; j < comparativeMarketdata.Count; j++)
-                {
-                    if (marketdata[i].Date.Equals(comparativeMarketdata[j].Date))
+            switch (mode)
+            {
+
+                case "0":                
+                     for (int i = 0; i < marketdata.Count; i++)
+                        for ( ; j < comparativeMarketdata.Count; j++)
+                        {
+                            if (marketdata[i].Date.Equals(comparativeMarketdata[j].Date))
+                            {
+                                closedPrice.Add(marketdata[i].ClosePrice);
+                                comparativeClosedPrice.Add(comparativeMarketdata[j].ClosePrice);
+                                date.Add(marketdata[i].Date);
+                                break;
+                            }
+                        }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - 2; i < marketdata.Count; i++)
                     {
-                        closedPrice.Add(marketdata[i].ClosePrice);
-                        comparativeClosedPrice.Add(comparativeMarketdata[j].ClosePrice);
-                        date.Add(marketdata[i].Date);
-                        break;
+                        for (; j < comparativeMarketdata.Count; j++)
+                        {
+                            if (marketdata[i].Date.Equals(comparativeMarketdata[j].Date))
+                            {
+                                closedPrice.Add(marketdata[i].ClosePrice);
+                                comparativeClosedPrice.Add(comparativeMarketdata[j].ClosePrice);
+                                date.Add(marketdata[i].Date);
+                                break;
+                            }
+                        }
                     }
-                }
+                    break;
+            }
+
+            
 
             double[] priceRelative = new double[marketdata.Count];
             double[] changeInPriceRelative = new double[marketdata.Count];

@@ -31,10 +31,23 @@ namespace FinTA.Indicators
             List<double> volume = new List<double>();
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
+            switch (mode)
             {
-                volume.Add(data.ClosePrice);
-                dates.Add(data.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);                     
+                        volume.Add(mdata.Volume);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period2 - period3; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        volume.Add(marketdata[i].Volume);
+                    }
+                    break;
             }
 
             PercentageOscillator po = new PercentageOscillator(volume, period1, period2, period3);

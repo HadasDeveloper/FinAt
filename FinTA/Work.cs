@@ -124,62 +124,62 @@ namespace FinTA
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} MassIndex",DateTime.Now), "TimeTest-FinTA");
 
-                MassIndex massIndex = new MassIndex(data, 9, 25); //Done new
+                MassIndex massIndex = new MassIndex(data, 9, 25); 
                 resultData.AddRange(massIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} MovingAverageConvergenceDivergence",DateTime.Now), "TimeTest-FinTA");
 
-                MovingAverageConvergenceDivergence macd = new MovingAverageConvergenceDivergence(data, 12, 26, 9); //Done new
+                MovingAverageConvergenceDivergence macd = new MovingAverageConvergenceDivergence(data, 12, 26, 9);
                 resultData.AddRange(macd.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} MoneyFlowIndex",DateTime.Now), "TimeTest-FinTA");
 
-                MoneyFlowIndex moneyFlowIndex = new MoneyFlowIndex(data, 14); //Done new
+                MoneyFlowIndex moneyFlowIndex = new MoneyFlowIndex(data, 14); 
                 resultData.AddRange(moneyFlowIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} NegativeVolumeIndex",DateTime.Now), "TimeTest-FinTA");
 
-                NegativeVolumeIndex negativeVolumeIndex = new NegativeVolumeIndex(data); //Done new
+                NegativeVolumeIndex negativeVolumeIndex = new NegativeVolumeIndex(data);
                 resultData.AddRange(negativeVolumeIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} OnBalanceVolume",DateTime.Now), "TimeTest-FinTA");
 
-                OnBalanceVolume onBalanceVolume = new OnBalanceVolume(data);  //Done new
+                OnBalanceVolume onBalanceVolume = new OnBalanceVolume(data,79);  
                 resultData.AddRange(onBalanceVolume.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} PercentagePriceOscillator",DateTime.Now), "TimeTest-FinTA");
 
-                PercentagePriceOscillator percentagePriceOscillator = new PercentagePriceOscillator(data, 12, 26, 9); //Done new
+                PercentagePriceOscillator percentagePriceOscillator = new PercentagePriceOscillator(data, 12, 26, 9); 
                 resultData.AddRange(percentagePriceOscillator.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} PercentageVolumeOscillator",DateTime.Now), "TimeTest-FinTA");
 
-                PercentageVolumeOscillator percentageVolumeOscillator = new PercentageVolumeOscillator(data, 12, 26, 9); //Done new
+                PercentageVolumeOscillator percentageVolumeOscillator = new PercentageVolumeOscillator(data, 12, 26, 9); 
                 resultData.AddRange(percentageVolumeOscillator.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} PriceRelative",DateTime.Now), "TimeTest-FinTA");
 
-                PriceRelative priceRelative = new PriceRelative(data, "SBUX"); //Done new
+                PriceRelative priceRelative = new PriceRelative(data, "SBUX");
                 resultData.AddRange(priceRelative.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} RateOfChange",DateTime.Now), "TimeTest-FinTA");
 
-                RateOfChange pateOfChange = new RateOfChange(data, 12); //Done new
+                RateOfChange pateOfChange = new RateOfChange(data, 12);
                 resultData.AddRange(pateOfChange.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} RelativeStrengthIndex",DateTime.Now), "TimeTest-FinTA");
 
-                RelativeStrengthIndex relativeStrengthIndex = new RelativeStrengthIndex(data, 14); //Done new
+                RelativeStrengthIndex relativeStrengthIndex = new RelativeStrengthIndex(data, 14);
                 resultData.AddRange(relativeStrengthIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} StandardDeviationVolatility",DateTime.Now), "TimeTest-FinTA");
 
-                StandardDeviationVolatility standardDeviationVolatility = new StandardDeviationVolatility(data, 10); //Done new
+                StandardDeviationVolatility standardDeviationVolatility = new StandardDeviationVolatility(data, 10); 
                 resultData.AddRange(standardDeviationVolatility.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} StochasticOscillator",DateTime.Now), "TimeTest-FinTA");
 
-                StochasticOscillator stochasticOscillator = new StochasticOscillator(data, 14); //Done new
+                StochasticOscillator stochasticOscillator = new StochasticOscillator(data, 14);
                 resultData.AddRange(stochasticOscillator.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} StochRSI",DateTime.Now), "TimeTest-FinTA");

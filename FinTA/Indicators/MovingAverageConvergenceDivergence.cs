@@ -28,13 +28,28 @@ namespace FinTA.Indicators
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> closedPrice = new List<double>();
-            List<DateTime> dates = new List<DateTime>(); 
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+
+            switch (mode)
             {
-                closedPrice.Add(mdata.ClosePrice);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - macdDays2 - signalDays ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
+
 
             SimpleMovingAverage sma = new SimpleMovingAverage();
             ExponentialMovingAverage ema = new ExponentialMovingAverage();
@@ -56,7 +71,6 @@ namespace FinTA.Indicators
             for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
             {
                 macdHistogram[i] = i < macdDays2 + signalDays -2 ? 0 : macdLine[i] - signalLine[i];
-
 
                 resultData.Add(new IndicatorsData
                 {

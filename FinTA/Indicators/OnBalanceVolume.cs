@@ -10,26 +10,44 @@ namespace FinTA.Indicators
     {
         private readonly List<MarketData> marketdata;
         public readonly DataTable Data = new DataTable();
+        private readonly int period;
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
 
 
-        public OnBalanceVolume(List<MarketData> marketdata)
+        public OnBalanceVolume(List<MarketData> marketdata, int period)
         {
             this.marketdata = marketdata;
+            this.period = period;
         }
 
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> closedPrice = new List<double>();
             List<double> volume = new List<double>();
-            List<DateTime> dates = new List<DateTime>(); 
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+
+            switch (mode)
             {
-                closedPrice.Add(mdata.ClosePrice);
-                volume.Add((double) mdata.Volume);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                        volume.Add(mdata.Volume);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                        volume.Add(marketdata[i].Volume);
+                    }
+                    break;
             }
+
 
             double[] upDown = new double[marketdata.Count];
             double[] positiveNegative = new double[marketdata.Count];

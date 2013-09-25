@@ -29,14 +29,30 @@ namespace FinTA.Indicators
             List<double> highPrice = new List<double>();
             List<double> lowPrice = new List<double>();
             List<double> highLowDiff = new List<double>();
-            List<DateTime> dates = new List<DateTime>(); 
+            List<DateTime> dates = new List<DateTime>();
 
-            for (int i = 0; i < marketdata.Count; i++)
+
+            switch (mode)
             {
-                highPrice.Add(marketdata[i].HighPrice);
-                lowPrice.Add(marketdata[i].LowPrice);
-                dates.Add(marketdata[i].Date);
-                highLowDiff.Add(highPrice[i] - lowPrice[i]);
+
+                case "0":
+                    for (int i = 0; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
+                        highLowDiff.Add(highPrice[i] - lowPrice[i]);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack1 * 2 + 1 - daysToGoBack2 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        highLowDiff.Add(highPrice[i] - lowPrice[i]);
+                    }
+                    break;
             }
                 
             SimpleMovingAverage sma = new SimpleMovingAverage();

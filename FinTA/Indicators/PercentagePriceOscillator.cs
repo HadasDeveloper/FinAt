@@ -28,11 +28,24 @@ namespace FinTA.Indicators
         {
             List<double> closedPrice = new List<double>();
             List<DateTime> dates = new List<DateTime>();
-            
-            foreach (MarketData data in marketdata)
+
+            switch (mode)
             {
-                closedPrice.Add(data.ClosePrice);
-                dates.Add(data.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);                     
+                        closedPrice.Add(mdata.ClosePrice);                       
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period2 - period3; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
             
             PercentageOscillator po = new PercentageOscillator(closedPrice, period1, period2, period3);
