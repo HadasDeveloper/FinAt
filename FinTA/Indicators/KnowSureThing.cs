@@ -52,7 +52,7 @@ namespace FinTA.Indicators
             List<double> roc3 = new List<double>();
             List<double> roc4 = new List<double>();
            
-            for(int i=0 ; i< marketdata.Count ; i++)
+            for(int i=0 ; i< dates.Count ; i++)
             {
                 roc1.Add(i < frames.Roc1 ? 0 : (closedPrice[i] - closedPrice[i - frames.Roc1]) / closedPrice[i - frames.Roc1] * 100);
                 roc2.Add(i < frames.Roc2 ? 0 : (closedPrice[i] - closedPrice[i - frames.Roc2]) / closedPrice[i - frames.Roc2] * 100);
@@ -69,7 +69,7 @@ namespace FinTA.Indicators
 
             double[] kst = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 int startPoint = frames.Roc4 + frames.Sma4 - 1;
 

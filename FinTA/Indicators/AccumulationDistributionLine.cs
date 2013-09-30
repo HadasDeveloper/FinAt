@@ -56,7 +56,7 @@ namespace FinTA.Indicators
             double[] moneyFolowVolum = new double[marketdata.Count];
             double[] adl = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 moneyFolowMultiplier[i] = (highPrice[i] - lowPrice[i])==0 ? 0 : ((closedPrice[i] - lowPrice[i]) - (highPrice[i] - closedPrice[i])) / (highPrice[i] - lowPrice[i]);
                 moneyFolowVolum[i] = moneyFolowMultiplier[i] * (double)volume[i];

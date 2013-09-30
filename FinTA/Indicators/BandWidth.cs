@@ -61,7 +61,7 @@ namespace FinTA.Indicators
             double[] ubsoluteBandWith = new double[marketdata.Count];
             double[] persentageBandWith = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
 
                 upperBand[i] = middleBand[i] + std[i] * numberOfStd;

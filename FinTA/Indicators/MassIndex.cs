@@ -50,7 +50,7 @@ namespace FinTA.Indicators
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
                         highPrice.Add(marketdata[i].LowPrice);
-                        highLowDiff.Add(highPrice[i] - lowPrice[i]);
+                        highLowDiff.Add(highPrice[highPrice.Count-1] - lowPrice[highPrice.Count-1]);
                     }
                     break;
             }
@@ -67,10 +67,10 @@ namespace FinTA.Indicators
             List<double> emaRatio = new List<double>();
             double[] massIndex = new double[marketdata.Count];
 
-            for (int i =  0 ; i < marketdata.Count; i++)
+            for (int i =  0 ; i < dates.Count; i++)
                 emaRatio.Add(i < daysToGoBack1 * 2 - 1 ? 0 : doubleEma[i] == 0 ? 0 : singleEma[i]/doubleEma[i] );
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {      
                 massIndex[i] = i < daysToGoBack2 + (daysToGoBack1*2) - 2 ? 0 : emaRatio.GetRange(i - daysToGoBack2 + 1, daysToGoBack2).Sum();
 

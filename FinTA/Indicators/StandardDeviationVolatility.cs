@@ -52,7 +52,7 @@ namespace FinTA.Indicators
             List<double> deviationSquared = new List<double>();
            
             int startSmaIndex = 0;
-            for (int i = 0; i < marketdata.Count - 10; i++)
+            for (int i = 0; i < dates.Count - 10; i++)
             {
                 periodAverage[i] = closedPrice.GetRange(startSmaIndex, daysToGoBack).Average();
                 deviation[i] = closedPrice[i] - periodAverage[i];
@@ -67,7 +67,7 @@ namespace FinTA.Indicators
 
             double[] standardDeviation = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count - 10; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count - 10; i++)
             {
                 standardDeviation[i] = (double)Math.Sqrt((double)periodAverageOfDeviationSquared[i]);
 

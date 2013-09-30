@@ -27,25 +27,30 @@ namespace FinTA.Overlays
 
             switch (mode)
             {
-                case "0" : orderedData = marketdata.OrderBy(mdata => mdata.ClosePrice).ToList(); //work correctly
+                case "0":
+                {
+                    orderedData = marketdata.OrderBy(mdata => mdata.ClosePrice).ToList(); //work correctly
                     break;
+                }
 
                 case "1":
+                {
                     
                     //one day back
-                    DateTime minDate = marketdata[marketdata.Count - 1].Date.AddDays(-1);                                      
+                    DateTime minDate = marketdata[marketdata.Count - 1].Date.AddDays(-1);
                     List<MarketData> temp = new List<MarketData>();
-                    
-                    for(int i = marketdata.Count-1 ; i>=0 ; i-- )
-                        if(marketdata[i].Date > minDate)
+
+                    for (int i = marketdata.Count - 1; i >= 0; i--)
+                        if (marketdata[i].Date > minDate)
                             temp.Add(marketdata[i]);
                         else
                             break;
 
-                    orderedData = temp.OrderBy(mdata => mdata.ClosePrice).ToList(); 
+                    orderedData = temp.OrderBy(mdata => mdata.ClosePrice).ToList();
 
                     break;
-            }
+                }
+        }
 
             List<double> closedPrice = new List<double>();
             List<double> volume = new List<double>();
@@ -63,7 +68,7 @@ namespace FinTA.Overlays
 
             int mdIndex = 0;
 
-            for (int i = 0; i < numOfBlocks && mdIndex < marketdata.Count; i++)
+            for (int i = 0; i < numOfBlocks && mdIndex < dates.Count; i++)
             {
 
                 blocks[i] = new VolumeByPriceBlock();
@@ -73,7 +78,7 @@ namespace FinTA.Overlays
                 double posVbp = 0;
                 double negVbp = 0;
 
-                for (int j = 0; mdIndex < marketdata.Count; j++)
+                for (int j = 0; mdIndex < dates.Count; j++)
                 {
 
                     if (closedPrice[mdIndex] <= blocks[i].Price[0] + blockRange)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using FinTA.Models;
 using FinTA.Overlays;
 using Logger;
@@ -26,12 +24,25 @@ namespace FinTA.Indicators
         public List<IndicatorsData> Calculate(string mode)
         {
             List<double> closedPrice = new List<double>();
-            List<DateTime> dates = new List<DateTime>(); 
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData mdata in marketdata)
+            switch (mode)
             {
-                closedPrice.Add(mdata.ClosePrice);
-                dates.Add(mdata.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);                        
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period*3 - 1 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
 
             SimpleMovingAverage sma = new SimpleMovingAverage();
@@ -42,7 +53,7 @@ namespace FinTA.Indicators
 
             double[] trix = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 trix[i] = (i == 0 || tripleSmoothedEma[i - 1]==0) ? 0 : (tripleSmoothedEma[i] / tripleSmoothedEma[i - 1] - 1) * 100;
 

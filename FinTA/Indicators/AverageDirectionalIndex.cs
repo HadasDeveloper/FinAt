@@ -58,7 +58,7 @@ namespace FinTA.Indicators
 
             double[] periodicTr = new double[marketdata.Count];
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
                 periodicTr[i] = i < daysToGoBack ? 0 : tr.GetRange(i - daysToGoBack + 1, daysToGoBack).Sum();
 
@@ -88,7 +88,7 @@ namespace FinTA.Indicators
 
             List<double> dx = CalcDirectionalIndicator(diSum, diDiff);
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 adx[i] = i < 2 * daysToGoBack - 1
                              ? 0
@@ -129,7 +129,7 @@ namespace FinTA.Indicators
 
             double[] smoothedList = new double[marketdata.Count];
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 smoothedList[i] = i < daysToGoBack
                                     ? 0

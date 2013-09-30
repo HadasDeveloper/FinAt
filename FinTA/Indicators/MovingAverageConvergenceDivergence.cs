@@ -60,7 +60,7 @@ namespace FinTA.Indicators
 
             List<double> macdLine = new List<double>();
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
                 macdLine.Add(i < macdDays2 -1 ? 0 : emaDays1[i] - emaDays2[i]);
 
             double[] smaMacdLine = sma.Calculate(macdLine, signalDays, macdDays2 + signalDays - 1);
@@ -68,7 +68,7 @@ namespace FinTA.Indicators
             double[] signalLine = ema.Calculate(macdLine, smaMacdLine , 2 / ((double)signalDays + 1), macdDays2 + signalDays - 1);
             double[] macdHistogram = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
                 macdHistogram[i] = i < macdDays2 + signalDays -2 ? 0 : macdLine[i] - signalLine[i];
 

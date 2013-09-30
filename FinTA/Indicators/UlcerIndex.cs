@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using FinTA.Helper;
 using FinTA.Models;
 using FinTA.Overlays;
@@ -28,19 +27,32 @@ namespace FinTA.Indicators
             List<double> closedPrice = new List<double>();   
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
-            {
-                closedPrice.Add(data.ClosePrice);
-                dates.Add(data.Date);
-            }
 
+            switch (mode)
+            {
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack*2+1 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
+            }
             List<double> maxClosePrice = new List<double>();
             List<double> percentDrawDown= new List<double>();
             List<double> percentDrawdownSquared = new List<double>();
             
             MathHelper mathHalper = new MathHelper();
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
                 maxClosePrice.Add(i < daysToGoBack - 1 ? 0 : mathHalper.FindMax(closedPrice.GetRange(i - daysToGoBack + 1, daysToGoBack)));
                 percentDrawDown.Add( i < daysToGoBack -1 ? 0 : (closedPrice[i] - maxClosePrice[i])/maxClosePrice[i]*100 );
@@ -51,7 +63,7 @@ namespace FinTA.Indicators
             double[] percentDrawdownSquaredAvg = sma.Calculate(percentDrawdownSquared, daysToGoBack, daysToGoBack*2 - 1);
             double[] ulcerIndex = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
                 ulcerIndex[i] = (double)Math.Sqrt((double)percentDrawdownSquaredAvg[i]);
 

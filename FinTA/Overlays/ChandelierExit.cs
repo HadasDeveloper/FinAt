@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FinTA.Helper;
 using FinTA.Indicators;
 using Logger;
 
 namespace FinTA.Models
 {
-    class ChandelierExit
+    public class ChandelierExit
     {
         private readonly List<MarketData> marketdata;
         private readonly int daysToGoBack;
@@ -65,7 +63,7 @@ namespace FinTA.Models
             AverageTrueRange averageTrueRange = new AverageTrueRange(marketdata, daysToGoBack);
             List<IndicatorsData> atrData = averageTrueRange.Calculate("0");
 
-            for (int  i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {              
                 atr[i] = atrData[i].Value;
                 

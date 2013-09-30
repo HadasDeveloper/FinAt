@@ -53,7 +53,7 @@ namespace FinTA.Indicators
             double[] extent = new double[marketdata.Count];
             List<double> forceIndex = new List<double>();
 
-            for(int i=0 ; i< marketdata.Count ; i++)
+            for(int i=0 ; i< dates.Count ; i++)
             {
                 upDown[i] = i == 0 ? 0 : (closedPrice[i] - closedPrice[i - 1]) > 0 ? 1 : -1; 
                 extent[i] =  i == 0 ? 0 : closedPrice[i] - closedPrice[i - 1];
@@ -67,7 +67,7 @@ namespace FinTA.Indicators
             double[] periodForceIndex = ema.Calculate(forceIndex, forceIndexSma, 2 / ((double)daysToGoBack + 1), daysToGoBack);
 
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 resultData.Add(new IndicatorsData
                 {

@@ -8,7 +8,7 @@ using Logger;
 
 namespace FinTA.Helper
 {
-    public class DataHelper
+    class DataHelper
     {
         //private const string ConnectionString = " Data Source=tcp:esql2k801.discountasp.net;Initial Catalog=SQL2008_856748_ntrlabs;User ID=SQL2008_856748_ntrlabs_user;Password=bbking;connection timeout=36000";
         //private const string DefaultDB = "SQL2008_856748_ntrlabs";
@@ -22,9 +22,9 @@ namespace FinTA.Helper
 
         private static readonly FileLogWriter LogWriter = new FileLogWriter();
 
-        public static DataTable GetMarketData(string symbol)
+        public static DataTable GetMarketData(string symbol,string date)
         {
-            return ExecuteSqlForData(string.Format(StoredProcedures.SqlGetOneInstrumentMarketData, symbol)) ?? new DataTable();
+            return ExecuteSqlForData(string.Format(StoredProcedures.SqlGetInstrumentsMarketData, symbol,date)) ?? new DataTable();
         }
 
         internal void WriteIndicatorsData(DataTable data)

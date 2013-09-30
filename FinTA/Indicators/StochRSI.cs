@@ -24,27 +24,37 @@ namespace FinTA.Indicators
 
         public List<IndicatorsData> Calculate(string mode)
         {
-            List<double> rsi = new List<double>();
-
             RelativeStrengthIndex rsiData = new RelativeStrengthIndex(marketdata , 14);
             List<IndicatorsData> rsiTable = rsiData.Calculate("0");
 
-             List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
-                dates.Add(data.Date);
-        
-            foreach (IndicatorsData data in rsiTable)
-                rsi.Add(data.Value);
-            
+            switch (mode)
+            {
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                    }
+                    break;
+            }
+
+
+            List<double> rsi = rsiTable.Select(data => data.Value).ToList();
+
             double[] highestHigh = new double[marketdata.Count];
             double[] lowestLow = new double[marketdata.Count];
             double[] stochasticRsi = new double[marketdata.Count];
              
-
             MathHelper mhelper = new MathHelper();
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 highestHigh[i] = i < daysToGoBack - 1
                                      ? 0

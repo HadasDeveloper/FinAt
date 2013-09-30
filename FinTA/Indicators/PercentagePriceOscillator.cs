@@ -51,7 +51,7 @@ namespace FinTA.Indicators
             PercentageOscillator po = new PercentageOscillator(closedPrice, period1, period2, period3);
             DataTable ppo =  po.Calculate("0");
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
 
                 resultData.Add(new IndicatorsData

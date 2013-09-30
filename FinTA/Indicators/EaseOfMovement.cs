@@ -57,7 +57,7 @@ namespace FinTA.Indicators
             double[] distanceMoved = new double[marketdata.Count];
             double[] boxRatio = new double[marketdata.Count];
 
-            for(int i=0 ; i< marketdata.Count ; i++)
+            for(int i=0 ; i< dates.Count ; i++)
             {
                 distanceMoved[i] = i == 0 ? 0 : (highPrice[i] + lowPrice[i])/2 - (highPrice[i - 1] + lowPrice[i - 1])/2;
                 boxRatio[i] = (highPrice[i] - lowPrice[i])==0 ? 0 : (volume[i] / 100000000) / (highPrice[i] - lowPrice[i]);
@@ -67,7 +67,7 @@ namespace FinTA.Indicators
             SimpleMovingAverage sma = new SimpleMovingAverage();
             double[] smaEmv = sma.Calculate(emv, daysToGoBack);
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 resultData.Add(new IndicatorsData
                 {

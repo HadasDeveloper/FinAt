@@ -54,7 +54,7 @@ namespace FinTA.Overlays
             double[] lbsma = CalcLbSma(sma, std);
             double[] bandWidth = CalcBandWidth(ubsma, lbsma);
 
-            for ( int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
                 resultData.Add( new IndicatorsData
                                             {

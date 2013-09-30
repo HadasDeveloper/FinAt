@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using FinTA.Models;
 using FinTA.Overlays;
 using Logger;
@@ -30,15 +29,31 @@ namespace FinTA.Indicators
             List<DateTime> dates = new List<DateTime>();
             List<double> change = new List<double>();
             List<double> abcChange = new List<double>();
-            
-            for (int i = 0; i < marketdata.Count; i++)
-            {
-                closedPrice.Add(marketdata[i].ClosePrice);
-                dates.Add(marketdata[i].Date);
 
-                change.Add(i == 0 ? 0 : closedPrice[i] - closedPrice[i - 1]);
-                abcChange.Add(Math.Abs(change[i]));
-            }
+
+            switch (mode)
+            {
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        closedPrice.Add(mdata.ClosePrice);
+                        change.Add(closedPrice.Count == 1 ? 0 : closedPrice[closedPrice.Count - 1] - closedPrice[closedPrice.Count - 2]);
+                        abcChange.Add(Math.Abs(change[change.Count-1]));
+
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period1 - period2 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                        change.Add(closedPrice.Count == 1 ? 0 : closedPrice[closedPrice.Count - 1] - closedPrice[closedPrice.Count - 2]);
+                        abcChange.Add(Math.Abs(change[change.Count - 1]));
+                    }
+                    break;
+            }           
 
             SimpleMovingAverage sma = new SimpleMovingAverage();
             ExponentialMovingAverage ema = new ExponentialMovingAverage();
@@ -55,10 +70,9 @@ namespace FinTA.Indicators
 
             double[] tsi = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 tsi[i] = doulleAbcEmaChange[i]==0 ? 0 : (doubleEmaChange[i] / doulleAbcEmaChange[i]) * 100;
-
                 resultData.Add(new IndicatorsData
                 {
                     Instrument = marketdata[i].Instrument,

@@ -6,11 +6,11 @@ using Logger;
 
 namespace FinTA.Helper
 {
-    public class DataContext
+    class DataContext
     {
-        public static List<MarketData> GetOneInstrumentMarketData(string symbol)
+        public static List<MarketData> GetOneInstrumentMarketData(string symbol,string date)
         {
-            DataTable table = DataHelper.GetMarketData(symbol);
+            DataTable table = DataHelper.GetMarketData(symbol, date);
             List<MarketData> marketData = new List<MarketData>();
 
             FileLogWriter logWriter = new FileLogWriter();
@@ -39,9 +39,9 @@ namespace FinTA.Helper
             return marketData;
         }
 
-        public static List<List<MarketData>> GetAllInstrumentsMarketData()
+        public static List<List<MarketData>> GetAllInstrumentsMarketData(string date)
         {
-            DataTable table = DataHelper.GetMarketData("");
+            DataTable table = DataHelper.GetMarketData("", date);
             List<List<MarketData>> marketData = new List<List<MarketData>>();
 
             FileLogWriter logWriter = new FileLogWriter();

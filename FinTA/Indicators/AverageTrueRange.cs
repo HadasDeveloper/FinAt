@@ -53,7 +53,7 @@ namespace FinTA.Indicators
             double[] atr = new double[marketdata.Count];
             List<double> tr = CalcTr(highPrice, lowPrice, closedPrice);
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             { 
                 atr[i] = i < (daysToGoBack - 1) ? 0 : (i == daysToGoBack - 1 ? tr.GetRange(0, daysToGoBack).Average() : (atr[i - 1] * (daysToGoBack - 1) + tr[i]) / daysToGoBack);
                 
@@ -79,7 +79,7 @@ namespace FinTA.Indicators
             double[] highPreviosClose = new double[marketdata.Count];
             double[] lowPreviosClose = new double[marketdata.Count];
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < closedPrice.Count; i++)
             {
 
                 highLow[i] = highPrice[i] - lowPrice[i];

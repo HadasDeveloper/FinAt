@@ -29,12 +29,28 @@ namespace FinTA.Indicators
             List<double> lowPrice = new List<double>();
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
+
+            switch (mode)
             {
-                closedPrice.Add(data.ClosePrice);
-                highPrice.Add(data.HighPrice);
-                lowPrice.Add(data.LowPrice);
-                dates.Add(data.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - period - 1 ; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
 
             List<double> positiveMovement = new List<double>();
@@ -44,7 +60,7 @@ namespace FinTA.Indicators
             List<double> trueRange = new List<double>();
             List<double> periodicTrueRange = new List<double>();
 
-            for (int i = 0 ; i < marketdata.Count; i++)
+            for (int i = 0 ; i < dates.Count; i++)
             {
                 positiveMovement.Add(i == 0 ? 0 : Math.Abs(highPrice[i] - lowPrice[i - 1]));
                 negativeMovement.Add(i == 0 ? 0 : Math.Abs(lowPrice[i] - highPrice[i - 1]));
@@ -58,7 +74,7 @@ namespace FinTA.Indicators
                 periodicTrueRange.Add(i < period ? 0 : trueRange.GetRange(i-period + 1,period).Sum());
             }
             
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count ; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count ; i++)
             {
                
                 double normalizedPositiveMovement = (periodicTrueRange[i]== 0 ? 0 : periodicPositiveMovement[i] / periodicTrueRange[i]);

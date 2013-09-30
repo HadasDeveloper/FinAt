@@ -53,7 +53,7 @@ namespace FinTA.Overlays
             double[] uEnvelope = new double[marketdata.Count];
             double[] lEnvelope = new double[marketdata.Count];
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
                 uEnvelope[i] = sma[i] + (sma[i]*envelope);
                 lEnvelope[i] = sma[i] - (sma[i]*envelope);

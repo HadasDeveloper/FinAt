@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using FinTA.Helper;
 using FinTA.Models;
 using Logger;
@@ -30,26 +29,38 @@ namespace FinTA.Indicators
             List<double> lowPrice = new List<double>();
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (MarketData data in marketdata)
+
+            switch (mode)
             {
-                closedPrice.Add(data.ClosePrice);
-                highPrice.Add(data.HighPrice);
-                lowPrice.Add(data.LowPrice);
-                dates.Add(data.Date);
+
+                case "0":
+                    foreach (MarketData mdata in marketdata)
+                    {
+                        dates.Add(mdata.Date);
+                        lowPrice.Add(mdata.LowPrice);
+                        highPrice.Add(mdata.HighPrice);
+                        closedPrice.Add(mdata.ClosePrice);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].LowPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                    }
+                    break;
             }
 
 
-            double highestHigh;
-            double lowestLow;
-            double williamR;
-
             MathHelper mathHalper = new MathHelper();
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
-                highestHigh = i < daysToGoBack - 1 ? 0 : mathHalper.FindMax(highPrice.GetRange(i - daysToGoBack + 1, daysToGoBack));
-                lowestLow = i < daysToGoBack - 1 ? 0 : mathHalper.FindMin(lowPrice.GetRange(i - daysToGoBack + 1, daysToGoBack));
-                williamR = i < daysToGoBack - 1 ? 0 : (highestHigh - lowestLow) == 0 ? 0 : ((highestHigh - closedPrice[i]) / (highestHigh - lowestLow) * (-100));
+                double highestHigh = i < daysToGoBack - 1 ? 0 : mathHalper.FindMax(highPrice.GetRange(i - daysToGoBack + 1, daysToGoBack));
+                double lowestLow = i < daysToGoBack - 1 ? 0 : mathHalper.FindMin(lowPrice.GetRange(i - daysToGoBack + 1, daysToGoBack));
+                double williamR = i < daysToGoBack - 1 ? 0 : (highestHigh - lowestLow) == 0 ? 0 : ((highestHigh - closedPrice[i]) / (highestHigh - lowestLow) * (-100));
 
                 resultData.Add(new IndicatorsData
                 {

@@ -13,12 +13,14 @@ namespace FinTA
         private List<List<MarketData>> allInstrumentsData = new List<List<MarketData>>();
         private List<IndicatorsData> resultData = new List<IndicatorsData>();
 
-        public void Start(string mode)
+        public void Start(string[] args)
         {
             FileLogWriter looger = new FileLogWriter();
             looger.WriteToLog(DateTime.Now, string.Format("{0: fff} start",DateTime.Now), "TimeTest-FinTA");
 
-            allInstrumentsData = DataContext.GetAllInstrumentsMarketData();
+            string mode = args[0];
+
+            allInstrumentsData = DataContext.GetAllInstrumentsMarketData(args.Length > 1 ? args[1] : "");
 
             foreach (List<MarketData> data in allInstrumentsData)
             {
@@ -34,17 +36,7 @@ namespace FinTA
 
                 ChandelierExit chandelierExit = new ChandelierExit(data, 22, 3);
                 resultData.AddRange(chandelierExit.Calculate(mode));
-
-                //looger.WriteToLog(DateTime.Now, string.Format("{0: fff} chandelierExitShort", DateTime.Now), "TimeTest-FinTA");
-
-                //ChandelierExitShort chandelierExitShort = new ChandelierExitShort(data, 22, 3);
-                //resultData.AddRange(chandelierExitShort.Calculate(mode));
-
-                //looger.WriteToLog(DateTime.Now, string.Format("{0: fff} ChandelierExitLong", DateTime.Now), "TimeTest-FinTA");
-
-                //ChandelierExitLong chandelierExitLong = new ChandelierExitLong(data, 22, 3);
-                //resultData.AddRange(chandelierExitLong.Calculate(mode));
-
+             
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} MovingAverages", DateTime.Now), "TimeTest-FinTA");
 
                 MovingAverages movingAverages = new MovingAverages(data, 10);
@@ -159,7 +151,7 @@ namespace FinTA
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} PriceRelative",DateTime.Now), "TimeTest-FinTA");
 
-                PriceRelative priceRelative = new PriceRelative(data, "SBUX");
+                PriceRelative priceRelative = new PriceRelative(data, "SBUX", args.Length > 1 ? args[1] : "");
                 resultData.AddRange(priceRelative.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} RateOfChange",DateTime.Now), "TimeTest-FinTA");
@@ -184,32 +176,32 @@ namespace FinTA
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} StochRSI",DateTime.Now), "TimeTest-FinTA");
 
-                StochRSI stochRsi = new StochRSI(data, 14);    //Done new
+                StochRSI stochRsi = new StochRSI(data, 14);  
                 resultData.AddRange(stochRsi.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} Trix",DateTime.Now), "TimeTest-FinTA");
 
-                Trix trix = new Trix(data, 15);    //Done new
+                Trix trix = new Trix(data, 15); 
                 resultData.AddRange(trix.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} TrueStrengthIndex",DateTime.Now), "TimeTest-FinTA");
 
-                TrueStrengthIndex trueStrengthIndex = new TrueStrengthIndex(data, 25, 13);  //Done new
+                TrueStrengthIndex trueStrengthIndex = new TrueStrengthIndex(data, 25, 13);  
                 resultData.AddRange(trueStrengthIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} UlcerIndex",DateTime.Now), "TimeTest-FinTA");
 
-                UlcerIndex ulcerIndex = new UlcerIndex(data, 14);    //Done new
+                UlcerIndex ulcerIndex = new UlcerIndex(data, 14);    
                 resultData.AddRange(ulcerIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} VortexIndicator",DateTime.Now), "TimeTest-FinTA");
 
-                VortexIndicator vortexIndicator = new VortexIndicator(data, 14); //Done new
+                VortexIndicator vortexIndicator = new VortexIndicator(data, 14); 
                 resultData.AddRange(vortexIndicator.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} WilliamR",DateTime.Now), "TimeTest-FinTA");
 
-                WilliamR williamR = new WilliamR(data, 14);  //Done new
+                WilliamR williamR = new WilliamR(data, 14);  
                 resultData.AddRange(williamR.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} Write To DB",DateTime.Now), "TimeTest-FinTA");
@@ -227,8 +219,6 @@ namespace FinTA
             
             looger.WriteToLog(DateTime.Now,string.Format("{0: fff} Done",DateTime.Now), "TimeTest-FinTA");
                  
-
-            Console.ReadKey();
         }
     }
 

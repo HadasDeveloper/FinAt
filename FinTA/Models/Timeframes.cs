@@ -1,6 +1,6 @@
 ﻿namespace FinTA.Models
 {
-    public class Timeframes
+    internal class Timeframes
     {
         public int Roc1 { get; set; }
         public int Roc2 { get; set; }

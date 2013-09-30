@@ -17,11 +17,11 @@ namespace FinTA.Indicators
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
 
 
-        public PriceRelative(List<MarketData> marketdata, string symbol)
+        public PriceRelative(List<MarketData> marketdata, string symbol,string date)
         {
             this.marketdata = marketdata;
             comparativeInstrument = symbol;
-            comparativeMarketdata = DataContext.GetOneInstrumentMarketData(comparativeInstrument); 
+            comparativeMarketdata = DataContext.GetOneInstrumentMarketData(comparativeInstrument,date); 
         }
 
         public List<IndicatorsData> Calculate(string mode)

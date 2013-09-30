@@ -53,14 +53,14 @@ namespace FinTA.Indicators
             double[] rs = new double[marketdata.Count];
             double[] rsi= new double[marketdata.Count];
 
-            for (int i = 0  ; i < marketdata.Count; i++)
+            for (int i = 0  ; i < dates.Count; i++)
             {
                 change[i] = i == 0 ? 0 : closedPrice[i] - closedPrice[i - 1];
                 gain.Add(change[i] > 0 ? change[i] : 0);
                 loss.Add(change[i] > 0 ? 0 : -change[i]);
             }
    
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1 ; i < marketdata.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {
                 
                 avgGain[i] = i <= daysToGoBack - 1
