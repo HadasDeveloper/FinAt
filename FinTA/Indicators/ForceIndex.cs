@@ -49,8 +49,8 @@ namespace FinTA.Indicators
             }
 
 
-            double[] upDown = new double[marketdata.Count];
-            double[] extent = new double[marketdata.Count];
+            double[] upDown = new double[dates.Count];
+            double[] extent = new double[dates.Count];
             List<double> forceIndex = new List<double>();
 
             for(int i=0 ; i< dates.Count ; i++)

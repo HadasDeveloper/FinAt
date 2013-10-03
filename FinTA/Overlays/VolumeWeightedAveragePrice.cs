@@ -27,16 +27,7 @@ namespace FinTA.Overlays
             List<double> lowPrice = new List<double>();
             List<double> volume = new List<double>();
             List<DateTime> dates = new List<DateTime>();
-
-            foreach (MarketData mdata in marketdata)
-            {
-                closedPrice.Add(mdata.ClosePrice);
-                highPrice.Add(mdata.HighPrice);
-                lowPrice.Add(mdata.LowPrice);
-                volume.Add(mdata.Volume);
-                dates.Add(mdata.Date);
-            }
-
+      
             switch (mode)
             {
 
@@ -55,37 +46,34 @@ namespace FinTA.Overlays
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                         volume.Add(marketdata[i].Volume);
                     }
                     break;
             }
 
-
-            double[] typicalPrice = new double[marketdata.Count];
-            double[] pv = new double[marketdata.Count];
-            double[] totalPv = new double[marketdata.Count];
-            double[] totalV = new double[marketdata.Count];
-            double[] vwap = new double[marketdata.Count];
+            List<double> pv = new List<double>();
+            List<double> totalPv = new List<double>();
+            double[] totalV = new double[dates.Count];
 
 
-            for (int i = mode.Equals("0") ? 0 : marketdata.Count - 1; i < marketdata.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
-                typicalPrice[i] = ((double)highPrice[i] + (double)lowPrice[i] + (double)closedPrice[i]) / 3;
-                pv[i] = (double)typicalPrice[i]*volume[i];
-                totalPv[i] = i == 0 ? pv[i] : pv[i] + totalPv[i - 1];
+                double typicalPrice = (highPrice[i] + lowPrice[i] + closedPrice[i]) / 3;
+                pv.Add(typicalPrice*volume[i]);
+                totalPv.Add( i == 0 ? pv[i] : pv[i] + totalPv[i - 1]);
                 totalV[i] = i == 0 ? totalV[i] = volume[i] : volume[i] + totalV[i - 1];
-                vwap[i] = totalPv[i]/totalV[i];
+                double vwap = totalPv[i]/totalV[i];
 
-
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "VolumeWeightedAveragePrice",
-                    Value = vwap[i]
-                });
+                if(mode.Equals("0")||(mode.Equals("1")&& i==dates.Count-1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "VolumeWeightedAveragePrice",
+                        Value = vwap
+                    });
 
             //    FileLogWriter looger = new FileLogWriter();
             //    looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5}", volume[i], typicalPrice[i], pv[i], totalPv[i],totalV[i] ,vwap[i]), "FinTA");

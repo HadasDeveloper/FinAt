@@ -45,30 +45,31 @@ namespace FinTA.Indicators
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                         volume.Add(marketdata[i].Volume);
                     }
                     break;
             }
 
-            double[] moneyFolowMultiplier = new double[marketdata.Count];
-            double[] moneyFolowVolum = new double[marketdata.Count];
-            double[] adl = new double[marketdata.Count];
+            double[] moneyFolowMultiplier = new double[dates.Count];
+            double[] moneyFolowVolum = new double[dates.Count];
+            double[] adl = new double[dates.Count];
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            for (int i = 0 ; i < dates.Count; i++)
             {
                 moneyFolowMultiplier[i] = (highPrice[i] - lowPrice[i])==0 ? 0 : ((closedPrice[i] - lowPrice[i]) - (highPrice[i] - closedPrice[i])) / (highPrice[i] - lowPrice[i]);
-                moneyFolowVolum[i] = moneyFolowMultiplier[i] * (double)volume[i];
+                moneyFolowVolum[i] = moneyFolowMultiplier[i] * volume[i];
                 adl[i] = i == 0 ? adl[i] = moneyFolowVolum[i] : moneyFolowVolum[i] + adl[i - 1];
-
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "AccumulationDistributionLine",
-                    Value = adl[i]
-                });
+                
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "AccumulationDistributionLine",
+                        Value = adl[i]
+                    });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3}", volume[i], moneyFolowMultiplier[i], moneyFolowVolum[i], adl[i]), "FinTA");

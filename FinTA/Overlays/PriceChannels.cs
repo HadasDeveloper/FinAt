@@ -42,14 +42,14 @@ namespace FinTA.Overlays
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);                    
+                        highPrice.Add(marketdata[i].HighPrice);                    
                     }
                     break;
             }
 
-            double[] upperLine = new double[marketdata.Count];
-            double[] lowerLine = new double[marketdata.Count];
-            double[] centerLine = new double[marketdata.Count];
+            double[] upperLine = new double[dates.Count];
+            double[] lowerLine = new double[dates.Count];
+            double[] centerLine = new double[dates.Count];
 
             MathHelper mhalper = new MathHelper();
 

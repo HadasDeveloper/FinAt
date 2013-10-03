@@ -45,11 +45,11 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - daysToGoBack1 * 2 + 1 - daysToGoBack2 ; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - daysToGoBack1 * 2 + 2 - daysToGoBack2 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         highLowDiff.Add(highPrice[highPrice.Count-1] - lowPrice[highPrice.Count-1]);
                     }
                     break;
@@ -65,14 +65,14 @@ namespace FinTA.Indicators
             double[] doubleEma = ema.Calculate(singleEma, doubleSma, 2 / ((double)daysToGoBack1 + 1), daysToGoBack1 * 2 - 1);
 
             List<double> emaRatio = new List<double>();
-            double[] massIndex = new double[marketdata.Count];
+            double[] massIndex = new double[dates.Count];
 
             for (int i =  0 ; i < dates.Count; i++)
-                emaRatio.Add(i < daysToGoBack1 * 2 - 1 ? 0 : doubleEma[i] == 0 ? 0 : singleEma[i]/doubleEma[i] );
+                emaRatio.Add(i < daysToGoBack1 * 2 - 2 ? 0 : doubleEma[i] == 0 ? 0 : singleEma[i]/doubleEma[i] );
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {      
-                massIndex[i] = i < daysToGoBack2 + (daysToGoBack1*2) - 2 ? 0 : emaRatio.GetRange(i - daysToGoBack2 + 1, daysToGoBack2).Sum();
+                massIndex[i] = i < daysToGoBack2 + (daysToGoBack1*2) - 3 ? 0 : emaRatio.GetRange(i - daysToGoBack2 + 1, daysToGoBack2).Sum();
 
                 resultData.Add(new IndicatorsData
                 {

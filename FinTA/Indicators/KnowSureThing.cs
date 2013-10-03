@@ -67,7 +67,7 @@ namespace FinTA.Indicators
             double[] smaRoc3 = sma.Calculate(roc3, frames.Sma3, frames.Roc4 + frames.Sma3 - 1);
             double[] smaRoc4 = sma.Calculate(roc4, frames.Sma4, frames.Roc4 + frames.Sma4);
 
-            double[] kst = new double[marketdata.Count];
+            double[] kst = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {

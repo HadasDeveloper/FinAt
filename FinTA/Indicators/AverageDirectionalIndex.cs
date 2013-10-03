@@ -44,7 +44,7 @@ namespace FinTA.Indicators
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                     }
                     break;
@@ -56,11 +56,11 @@ namespace FinTA.Indicators
             List<double> plusDm = new List<double>();
             List<double> minusDm = new List<double>();
 
-            double[] periodicTr = new double[marketdata.Count];
+            double[] periodicTr = new double[dates.Count];
 
             for (int i = 0; i < dates.Count; i++)
             {
-                periodicTr[i] = i < daysToGoBack ? 0 : tr.GetRange(i - daysToGoBack + 1, daysToGoBack).Sum();
+                periodicTr[i] = i < daysToGoBack - 1 ? 0 : tr.GetRange(i - daysToGoBack + 1, daysToGoBack).Sum();
 
                 double diffHigh = i == 0 ? 0 : highPrice[i] - highPrice[i - 1];
                 double diffLow = i == 0 ? 0 : lowPrice[i - 1] - lowPrice[i];
@@ -75,12 +75,12 @@ namespace FinTA.Indicators
             List<double> plusDi = CalcDirectionalIndicator(periodicTr, plusPeriodicDm);
             List<double> minusDi = CalcDirectionalIndicator(periodicTr, minusPeriodicDm);
 
-            double[] diDiff = new double[marketdata.Count];
-            double[] diSum = new double[marketdata.Count];
+            double[] diDiff = new double[dates.Count];
+            double[] diSum = new double[dates.Count];
 
-            double[] adx = new double[marketdata.Count];
+            double[] adx = new double[dates.Count];
 
-            for (int i = 0; i < marketdata.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
                 diDiff[i] = Math.Abs(plusDi[i] - minusDi[i]);
                 diSum[i] = plusDi[i] + minusDi[i];
@@ -88,21 +88,22 @@ namespace FinTA.Indicators
 
             List<double> dx = CalcDirectionalIndicator(diSum, diDiff);
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            for (int i = mode.Equals("0") ? 0 : dates.Count - 2 ; i < dates.Count; i++)
             {
-                adx[i] = i < 2 * daysToGoBack - 1
+                adx[i] = i < 2 * daysToGoBack - 2
                              ? 0
-                             : i == 2 * daysToGoBack - 1
+                             : i == 2 * daysToGoBack - 2
                                    ? dx.GetRange(i - daysToGoBack + 1, daysToGoBack).Average()
                                    : (adx[i - 1] * (daysToGoBack - 1) + dx[i]) / daysToGoBack;
 
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "AverageDirectionalIndex",
-                    Value = adx[i]
-                });
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "AverageDirectionalIndex",
+                        Value = adx[i]
+                    });
 
 
                 //FileLogWriter looger = new FileLogWriter();
@@ -127,13 +128,13 @@ namespace FinTA.Indicators
         private double[] CalcWilderSmoothing(List<double> list)
         {
 
-            double[] smoothedList = new double[marketdata.Count];
+            double[] smoothedList = new double[list.Count];
 
             for (int i = 0; i < list.Count; i++)
             {
-                smoothedList[i] = i < daysToGoBack
+                smoothedList[i] = i < daysToGoBack - 1
                                     ? 0
-                                    : i == daysToGoBack
+                                    : i == daysToGoBack - 1
                                           ? list.GetRange(i - daysToGoBack + 1, daysToGoBack).Sum()
                                           : smoothedList[i - 1] - smoothedList[i - 1] / daysToGoBack + list[i];
             }
@@ -143,7 +144,7 @@ namespace FinTA.Indicators
 
         private List<double> CalcDirectionalIndicator(double[] tr, double[] dm)
         {
-            return marketdata.Select((t, i) => tr[i] == 0 ? 0 : (dm[i] / tr[i]) * 100).ToList();
+            return tr.Select((t, i) => tr[i] == 0 ? 0 : (dm[i] / tr[i]) * 100).ToList();
         }
     }
 }

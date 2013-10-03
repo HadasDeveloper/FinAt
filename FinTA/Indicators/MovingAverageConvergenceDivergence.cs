@@ -42,7 +42,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - macdDays2 - signalDays ; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - macdDays2*2 + 1 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice);
@@ -56,7 +56,7 @@ namespace FinTA.Indicators
             double[] emaDays1 = ema.Calculate(closedPrice, sma.Calculate(closedPrice, macdDays1),   //12 days ema(close peice)
                                                2/((double) macdDays1 + 1), macdDays1);
             double[] emaDays2 = ema.Calculate(closedPrice, sma.Calculate(closedPrice, macdDays2),   //26 days ema(close peice)
-                                               2/((double) macdDays2 + 1), macdDays2);
+                                               2 / ((double)macdDays2 + 1), macdDays2);
 
             List<double> macdLine = new List<double>();
 
@@ -66,7 +66,7 @@ namespace FinTA.Indicators
             double[] smaMacdLine = sma.Calculate(macdLine, signalDays, macdDays2 + signalDays - 1);
             //signalLine = 9 days ema(macd Line)
             double[] signalLine = ema.Calculate(macdLine, smaMacdLine , 2 / ((double)signalDays + 1), macdDays2 + signalDays - 1);
-            double[] macdHistogram = new double[marketdata.Count];
+            double[] macdHistogram = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
@@ -77,7 +77,7 @@ namespace FinTA.Indicators
                     Instrument = marketdata[i].Instrument,
                     Date = dates[i],
                     Indicatore = "MACD",
-                    Value = smaMacdLine[i]
+                    Value = macdLine[i]
                 });
                 
                 resultData.Add(new IndicatorsData

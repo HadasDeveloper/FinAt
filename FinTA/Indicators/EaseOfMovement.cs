@@ -47,15 +47,15 @@ namespace FinTA.Indicators
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         volume.Add(marketdata[i].Volume);
                     }
                     break;
             }
 
 
-            double[] distanceMoved = new double[marketdata.Count];
-            double[] boxRatio = new double[marketdata.Count];
+            double[] distanceMoved = new double[dates.Count];
+            double[] boxRatio = new double[dates.Count];
 
             for(int i=0 ; i< dates.Count ; i++)
             {

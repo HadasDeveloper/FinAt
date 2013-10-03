@@ -24,7 +24,7 @@ namespace FinTA
 
             foreach (List<MarketData> data in allInstrumentsData)
             {
-                    //-------------   Overlays   --------------
+                //-------------   Overlays   --------------
 
                 looger.WriteToLog(DateTime.Now, string.Format("----------   {0}   -----------", data[0].Instrument), "TimeTest-FinTA");
                 looger.WriteToLog(DateTime.Now, string.Format("{0: fff} BollingerBands", DateTime.Now), "TimeTest-FinTA");

@@ -28,44 +28,44 @@ namespace FinTA.Models
             List<double> highPrice = new List<double>();
             List<DateTime> dates = new List<DateTime>();
 
+            AverageTrueRange averageTrueRange = new AverageTrueRange(marketdata, daysToGoBack);
+            List<IndicatorsData> atrData = averageTrueRange.Calculate("0");
+
+            List<double> atr = new List<double>();
+
             switch (mode)
             {
-
                 case "0":
-                    foreach (MarketData mdata in marketdata)
-                    {
-                        dates.Add(mdata.Date);
-                        lowPrice.Add(mdata.LowPrice);
-                        highPrice.Add(mdata.HighPrice);
-                        closedPrice.Add(mdata.ClosePrice);
-                    }
-                    break;
-                case "1":
-                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    for (int i = 0 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
+                        atr.Add(atrData[i].Value);
+                    }
+                    break;
+                case "1":
+                    for (int i = marketdata.Count - daysToGoBack-1; i < marketdata.Count; i++)
+                    {
+                        dates.Add(marketdata[i].Date);
+                        lowPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
+                        closedPrice.Add(marketdata[i].ClosePrice);
+                        atr.Add(atrData[i].Value);
                     }
                     break;
             }
 
-            double[] lowestLow = new double[marketdata.Count];
-            double[] chandelierExitShort = new double[marketdata.Count];
-            double[] highestHigh = new double[marketdata.Count];
-            double[] chandelierExitLong = new double[marketdata.Count];
+            double[] lowestLow = new double[dates.Count];
+            double[] chandelierExitShort = new double[dates.Count];
+            double[] highestHigh = new double[dates.Count];
+            double[] chandelierExitLong = new double[dates.Count];
 
             MathHelper mhalper = new MathHelper();
 
-            double[] atr = new double[marketdata.Count];
-
-            AverageTrueRange averageTrueRange = new AverageTrueRange(marketdata, daysToGoBack);
-            List<IndicatorsData> atrData = averageTrueRange.Calculate("0");
-
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {              
-                atr[i] = atrData[i].Value;
                 
                 lowestLow[i] = i < daysToGoBack - 1
                                    ? 0

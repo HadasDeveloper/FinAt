@@ -49,7 +49,7 @@ namespace FinTA.Indicators
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                         volume.Add(marketdata[i].Volume);
                     }
@@ -57,15 +57,15 @@ namespace FinTA.Indicators
             }
 
 
-            double[] typicalPrice = new double[marketdata.Count];
-            double[] upOrDown = new double[marketdata.Count];
-            double[] rawMoneyFlow = new double[marketdata.Count];
+            double[] typicalPrice = new double[dates.Count];
+            double[] upOrDown = new double[dates.Count];
+            double[] rawMoneyFlow = new double[dates.Count];
             List<double> positiveMoneyFlow = new List<double>();
             List<double> negativeMoneyFlow = new List<double>();
-            double[] periodPositiveMoneyFlow = new double[marketdata.Count];
-            double[] periodNegativeMoneyFlow = new double[marketdata.Count];
-            double[] periodMoneyFlowRatio = new double[marketdata.Count];
-            double[] periodMoneyFlowIndex = new double[marketdata.Count];
+            double[] periodPositiveMoneyFlow = new double[dates.Count];
+            double[] periodNegativeMoneyFlow = new double[dates.Count];
+            double[] periodMoneyFlowRatio = new double[dates.Count];
+            double[] periodMoneyFlowIndex = new double[dates.Count];
 
             for (int i = 0 ; i < dates.Count; i++)
             {

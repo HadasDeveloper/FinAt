@@ -40,30 +40,32 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - daysToGoBack - 1; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
-                        highPrice.Add(marketdata[i].LowPrice);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                     }
                     break;
             }
 
-            double[] atr = new double[marketdata.Count];
+            double[] atr = new double[dates.Count];
             List<double> tr = CalcTr(highPrice, lowPrice, closedPrice);
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
+            for (int  i=0 ; i < dates.Count; i++)
             { 
                 atr[i] = i < (daysToGoBack - 1) ? 0 : (i == daysToGoBack - 1 ? tr.GetRange(0, daysToGoBack).Average() : (atr[i - 1] * (daysToGoBack - 1) + tr[i]) / daysToGoBack);
-                
-                resultData.Add( new IndicatorsData
-                                            {
-                                                Instrument = marketdata[i].Instrument,
-                                                Date = dates[i],
-                                                Indicatore = "AverageTrueRange",
-                                                Value = atr[i]
-                                            });
+
+
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add( new IndicatorsData
+                                                {
+                                                    Instrument = marketdata[i].Instrument,
+                                                    Date = dates[i],
+                                                    Indicatore = "AverageTrueRange",
+                                                    Value = atr[i]
+                                                });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1}", tr[i], atr[i]), "FinTA");
@@ -75,9 +77,9 @@ namespace FinTA.Indicators
 
         public List<double> CalcTr(List<double> highPrice, List<double> lowPrice, List<double> closedPrice)
         {
-            double[] highLow = new double[marketdata.Count];
-            double[] highPreviosClose = new double[marketdata.Count];
-            double[] lowPreviosClose = new double[marketdata.Count];
+            double[] highLow = new double[closedPrice.Count];
+            double[] highPreviosClose = new double[closedPrice.Count];
+            double[] lowPreviosClose = new double[closedPrice.Count];
 
             for (int i = 0; i < closedPrice.Count; i++)
             {

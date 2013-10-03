@@ -42,8 +42,8 @@ namespace FinTA.Overlays
                 case "1":
                     for (int i = marketdata.Count - daysToGoBack; i < marketdata.Count; i++)
                     {
-                        dates.Add(marketdata[i].Date);      
-                        highPrice.Add(marketdata[i].LowPrice);
+                        dates.Add(marketdata[i].Date);
+                        highPrice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                     }
                     break;
