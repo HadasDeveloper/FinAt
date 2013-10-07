@@ -73,17 +73,15 @@ namespace FinTA.Indicators
 
                  
 
-                FileLogWriter looger = new FileLogWriter();
+                //FileLogWriter looger = new FileLogWriter();
 
-              
-
-                looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5}", ppo.Rows[i].Field<double>("EMAPeriod1"),
-                              ppo.Rows[i].Field<double>("EMAPeriod2"),
-                              ppo.Rows[i].Field<double>("MACD"),
-                              ppo.Rows[i].Field<double>("PO"),
-                              ppo.Rows[i].Field<double>("SignalLine"),
-                              ppo.Rows[i].Field<double>("Histogram")),
-                              "FinTA" );
+                //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5}", ppo.Rows[i].Field<double>("EMAPeriod1"),
+                //              ppo.Rows[i].Field<double>("EMAPeriod2"),
+                //              ppo.Rows[i].Field<double>("MACD"),
+                //              ppo.Rows[i].Field<double>("PO"),
+                //              ppo.Rows[i].Field<double>("SignalLine"),
+                //              ppo.Rows[i].Field<double>("Histogram")),
+                //              "FinTA" );
 
                    
             }

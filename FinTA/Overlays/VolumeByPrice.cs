@@ -118,12 +118,12 @@ namespace FinTA.Overlays
             for (int i = 0; i < numOfBlocks && blocks[i]!=null; i++)
             {
                 for (int j = mode.Equals("0") ? 0 : blocks[i].Date.Count - 1; j < blocks[i].Date.Count; j++)
-              {    
-                  resultData.Add(new IndicatorsData
-                  {
+                {
+                    resultData.Add(new IndicatorsData
+                    {
                       Instrument = marketdata[i].Instrument,
                       Date = blocks[i].Date[j],
-                      Indicatore = "NegVolumeByPrice",
+                      Indicatore = string.Format("{0}{1}", "NegVolumeByPrice", i),
                       Value = blocks[i].NegVbp
                   });
 
@@ -131,7 +131,7 @@ namespace FinTA.Overlays
                   {
                       Instrument = marketdata[i].Instrument,
                       Date = blocks[i].Date[j],
-                      Indicatore = "PosVolumeByPrice",
+                      Indicatore = string.Format("{0}{1}", "PosVolumeByPrice", i),
                       Value = blocks[i].PosVbp
                   });
 

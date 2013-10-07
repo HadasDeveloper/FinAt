@@ -211,7 +211,8 @@ namespace FinTA
                     DataContext.WriteIndicatorsData(resultData);      
                     resultData = new List<IndicatorsData>();
                 }
-  
+
+                looger.WriteToLog(DateTime.Now, string.Format("{0: fff} done Write To DB", DateTime.Now), "TimeTest-FinTA");
             }
 
             if (mode.Equals("1"))
