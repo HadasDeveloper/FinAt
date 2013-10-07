@@ -9,13 +9,15 @@ namespace FinTA.Indicators
     public class NegativeVolumeIndex
     {
         private readonly List<MarketData> marketdata;
+        private readonly int period;
         public readonly DataTable Data = new DataTable();
         private readonly List<IndicatorsData> resultData = new List<IndicatorsData>();
 
 
-        public NegativeVolumeIndex(List<MarketData> marketdata)
+        public NegativeVolumeIndex(List<MarketData> marketdata, int period)
         {
-            this.marketdata = marketdata;            
+            this.marketdata = marketdata;
+            this.period = period;
         }
 
         public List<IndicatorsData> Calculate(string mode)
@@ -36,7 +38,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - 2; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice); 
@@ -46,12 +48,12 @@ namespace FinTA.Indicators
             }
 
 
-            double[] spxChange = new double[marketdata.Count];
-            double[] volumeChange = new double[marketdata.Count];
-            double[] nviValue = new double[marketdata.Count];
-            double[] nviCumulative = new double[marketdata.Count];
+            double[] spxChange = new double[dates.Count];
+            double[] volumeChange = new double[dates.Count];
+            double[] nviValue = new double[dates.Count];
+            double[] nviCumulative = new double[dates.Count];
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            for (int i = 0 ; i < dates.Count; i++)
             {
                 spxChange[i] = i < 1 ? 0 : ((closedPrice[i] - closedPrice[i - 1])/closedPrice[i - 1]*100);
                 volumeChange[i] = i < 1 ? 0 : ((volume[i] - volume[i - 1])/volume[i - 1]*100);
@@ -59,13 +61,14 @@ namespace FinTA.Indicators
                 nviCumulative[i] = i == 0 ? 1000 : nviCumulative[i - 1] + nviValue[i];
 
 
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "NegativeVolumeIndex",
-                    Value = nviCumulative[i]
-                });
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "NegativeVolumeIndex",
+                        Value = nviCumulative[i]
+                    });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3}", spxChange[i],

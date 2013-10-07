@@ -45,7 +45,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - period; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period - 1; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         lowPrice.Add(marketdata[i].LowPrice);
@@ -79,9 +79,9 @@ namespace FinTA.Indicators
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
-                periodPositiveMoneyFlow[i] = i < period ? 0 : positiveMoneyFlow.GetRange(i - period + 1, period).Sum();
-                periodNegativeMoneyFlow[i] = i < period ? 0 : negativeMoneyFlow.GetRange(i - period + 1, period).Sum();
-                periodMoneyFlowRatio[i] =periodNegativeMoneyFlow[i]==0 ? 0 :  i < period ? 0 : periodPositiveMoneyFlow[i]/periodNegativeMoneyFlow[i];
+                periodPositiveMoneyFlow[i] = i < period-1 ? 0 : positiveMoneyFlow.GetRange(i - period + 1, period).Sum();
+                periodNegativeMoneyFlow[i] = i < period-1 ? 0 : negativeMoneyFlow.GetRange(i - period + 1, period).Sum();
+                periodMoneyFlowRatio[i] =periodNegativeMoneyFlow[i]==0 ? 0 :  i < period - 1 ? 0 : periodPositiveMoneyFlow[i]/periodNegativeMoneyFlow[i];
                 periodMoneyFlowIndex[i] = 100 - (100/(1 + periodMoneyFlowRatio[i]));
 
 

@@ -37,7 +37,7 @@ namespace FinTA.Indicators
                      }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - daysToGoBack - 2 ; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - daysToGoBack*2 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice);
@@ -45,13 +45,13 @@ namespace FinTA.Indicators
                     break;
             }
 
-            double[] change = new double[marketdata.Count];
+            double[] change = new double[dates.Count];
             List<double> loss = new List<double>();
             List<double> gain = new List<double>();
-            double[] avgGain = new double[marketdata.Count];
-            double[] avgLoss = new double[marketdata.Count];
-            double[] rs = new double[marketdata.Count];
-            double[] rsi= new double[marketdata.Count];
+            double[] avgGain = new double[dates.Count];
+            double[] avgLoss = new double[dates.Count];
+            double[] rs = new double[dates.Count];
+            double[] rsi = new double[dates.Count];
 
             for (int i = 0  ; i < dates.Count; i++)
             {
@@ -60,7 +60,7 @@ namespace FinTA.Indicators
                 loss.Add(change[i] > 0 ? 0 : -change[i]);
             }
    
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
                 
                 avgGain[i] = i <= daysToGoBack - 1
@@ -78,13 +78,14 @@ namespace FinTA.Indicators
                 rs[i] = avgLoss[i]==0 ? 0 : avgGain[i]/avgLoss[i];
                 rsi[i] =  i < daysToGoBack - 1 ? 0 : avgLoss[i] == 0 ? 100 : 100 - (100 / (1 + rs[i]));
 
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "RelativeStrengthIndex",
-                    Value = rsi[i]
-                });
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "RelativeStrengthIndex",
+                        Value = rsi[i]
+                    });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5},{6}", change[i],

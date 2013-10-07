@@ -44,13 +44,13 @@ namespace FinTA.Indicators
                     break;
             }
                       
-            double[] roc = new double[marketdata.Count];
+            double[] roc = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {
-                roc[i] = i < daysToGoBack
+                roc[i] = i < daysToGoBack  - 1
                              ? 0
-                             : ((closedPrice[i] - closedPrice[i - daysToGoBack])/closedPrice[i - daysToGoBack])*100;
+                             : ((closedPrice[i] - closedPrice[i - daysToGoBack+1])/closedPrice[i - daysToGoBack + 1])*100;
 
                 resultData.Add(new IndicatorsData
                 {

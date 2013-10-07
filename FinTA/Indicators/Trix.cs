@@ -37,7 +37,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - period*3 - 1 ; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period*4 + 3 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice);
@@ -51,7 +51,7 @@ namespace FinTA.Indicators
             List<double> doubleSmoothedEma = ema.CalculateList(singleSmoothedEma, sma.Calculate(singleSmoothedEma, period, period * 2 - 1), 2 / ((double)period + 1), period * 2 - 1);
             List<double> tripleSmoothedEma = ema.CalculateList(doubleSmoothedEma, sma.Calculate(doubleSmoothedEma, period, period * 3 - 2), 2 / ((double)period + 1), period * 3 - 2);
 
-            double[] trix = new double[marketdata.Count];
+            double[] trix = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {

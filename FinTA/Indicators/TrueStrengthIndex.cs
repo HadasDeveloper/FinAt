@@ -45,7 +45,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - period1 - period2 ; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period1*2 - 1 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice);
@@ -68,7 +68,7 @@ namespace FinTA.Indicators
                                                       sma.Calculate(emaAbcChange, period2, period1 + period2 - 1),
                                                       2/((double)period2 + 1), period1 + period2);
 
-            double[] tsi = new double[marketdata.Count];
+            double[] tsi = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
             {

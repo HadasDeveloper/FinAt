@@ -61,7 +61,7 @@ namespace FinTA.Indicators
 
             SimpleMovingAverage sma = new SimpleMovingAverage();
             double[] percentDrawdownSquaredAvg = sma.Calculate(percentDrawdownSquared, daysToGoBack, daysToGoBack*2 - 1);
-            double[] ulcerIndex = new double[marketdata.Count];
+            double[] ulcerIndex = new double[dates.Count];
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1; i < dates.Count; i++)
             {

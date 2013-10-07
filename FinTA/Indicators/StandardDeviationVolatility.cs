@@ -47,12 +47,12 @@ namespace FinTA.Indicators
                     break;
             }
 
-            double[] periodAverage = new double[marketdata.Count];
-            double[] deviation = new double[marketdata.Count];
+            double[] periodAverage = new double[dates.Count];
+            double[] deviation = new double[dates.Count];
             List<double> deviationSquared = new List<double>();
            
             int startSmaIndex = 0;
-            for (int i = 0; i < dates.Count - 10; i++)
+            for (int i = 0; i < dates.Count; i++)
             {
                 periodAverage[i] = closedPrice.GetRange(startSmaIndex, daysToGoBack).Average();
                 deviation[i] = closedPrice[i] - periodAverage[i];
@@ -65,19 +65,20 @@ namespace FinTA.Indicators
             SimpleMovingAverage sma = new SimpleMovingAverage();
             double[] periodAverageOfDeviationSquared = sma.Calculate(deviationSquared, daysToGoBack);
 
-            double[] standardDeviation = new double[marketdata.Count];
+            double[] standardDeviation = new double[dates.Count];
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count - 10; i++)
+            for (int i = 0 ; i < dates.Count; i++)
             {
-                standardDeviation[i] = (double)Math.Sqrt((double)periodAverageOfDeviationSquared[i]);
+                standardDeviation[i] = Math.Sqrt(periodAverageOfDeviationSquared[i]);
 
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "StandardDeviationVolatility",
-                    Value = standardDeviation[i]
-                });
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "StandardDeviationVolatility",
+                        Value = standardDeviation[i]
+                    });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4}",

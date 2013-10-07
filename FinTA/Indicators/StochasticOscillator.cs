@@ -45,15 +45,15 @@ namespace FinTA.Indicators
                     {
                         dates.Add(marketdata[i].Date);
                         lowprice.Add(marketdata[i].LowPrice);
-                        highprice.Add(marketdata[i].LowPrice);
+                        highprice.Add(marketdata[i].HighPrice);
                         closedPrice.Add(marketdata[i].ClosePrice);
                     }
                     break;
             }
             
-            double[] highestHigh = new double[marketdata.Count];
-            double[] lowestLow = new double[marketdata.Count];
-            double[] stochasticOscillator = new double[marketdata.Count];
+            double[] highestHigh = new double[dates.Count];
+            double[] lowestLow = new double[dates.Count];
+            double[] stochasticOscillator = new double[dates.Count];
 
             MathHelper mhelper = new MathHelper();
 

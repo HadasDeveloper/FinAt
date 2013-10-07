@@ -49,23 +49,24 @@ namespace FinTA.Indicators
             }
 
 
-            double[] upDown = new double[marketdata.Count];
-            double[] positiveNegative = new double[marketdata.Count];
-            double[] obv = new double[marketdata.Count];
+            double[] upDown = new double[dates.Count];
+            double[] positiveNegative = new double[dates.Count];
+            double[] obv = new double[dates.Count];
 
-            for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            for (int i = 0  ; i < dates.Count; i++)
             {
                 upDown[i] = i < 1 ? 0 : closedPrice[i] - closedPrice[i - 1] > 0 ? 1 : -1 ;
                 positiveNegative[i] = upDown[i] * volume[i];
                 obv[i] = i < 1 ? positiveNegative[i] : positiveNegative[i] + obv[i-1];
 
-                resultData.Add(new IndicatorsData
-                {
-                    Instrument = marketdata[i].Instrument,
-                    Date = dates[i],
-                    Indicatore = "OnBalanceVolume",
-                    Value = obv[i]
-                });
+                if (mode.Equals("0") || (mode.Equals("1") && i == dates.Count - 1))
+                    resultData.Add(new IndicatorsData
+                    {
+                        Instrument = marketdata[i].Instrument,
+                        Date = dates[i],
+                        Indicatore = "OnBalanceVolume",
+                        Value = obv[i]
+                    });
 
                 //FileLogWriter looger = new FileLogWriter();
                 //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2}", upDown[i],

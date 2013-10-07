@@ -131,7 +131,7 @@ namespace FinTA
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} NegativeVolumeIndex",DateTime.Now), "TimeTest-FinTA");
 
-                NegativeVolumeIndex negativeVolumeIndex = new NegativeVolumeIndex(data);
+                NegativeVolumeIndex negativeVolumeIndex = new NegativeVolumeIndex(data,79);
                 resultData.AddRange(negativeVolumeIndex.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} OnBalanceVolume",DateTime.Now), "TimeTest-FinTA");
@@ -156,7 +156,7 @@ namespace FinTA
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} RateOfChange",DateTime.Now), "TimeTest-FinTA");
 
-                RateOfChange pateOfChange = new RateOfChange(data, 12);
+                RateOfChange pateOfChange = new RateOfChange(data, 13);
                 resultData.AddRange(pateOfChange.Calculate(mode));
 
                 looger.WriteToLog(DateTime.Now,string.Format("{0: fff} RelativeStrengthIndex",DateTime.Now), "TimeTest-FinTA");
