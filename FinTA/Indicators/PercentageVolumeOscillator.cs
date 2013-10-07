@@ -42,7 +42,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - period2 - period3; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period2*2 + 1; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         volume.Add(marketdata[i].Volume);

@@ -48,13 +48,13 @@ namespace FinTA.Indicators
                 po.Add(emaPeriod2[i] == 0 ? 0 : macd[i]/emaPeriod2[i]*100);
             }
 
-            double[] signalLine = ema.Calculate(po, sma.Calculate(po, period3, period2 + period3 - 1), 2 / ((double)period3 + 1), period2 + period3 - 1);
+            double[] signalLine = ema.Calculate(po, sma.Calculate(po, period3, po.Count - period3 + 1), 2 / ((double)period3 + 1), po.Count - period3 + 1);
 
             double[] histogram = new double[data.Count];
 
-            for (int i = mode.Equals("0") ? 0 : data.Count - 1 ; i < data.Count; i++)
+            for (int i = 0 ; i < data.Count; i++)
             {
-                histogram[i] = i < period2 + period3 - 2 ? 0 : po[i] - signalLine[i];
+                histogram[i] = i < po.Count - period3  ? 0 : po[i] - signalLine[i];
                 Data.Rows.Add(emaPeriod1[i],
                                   emaPeriod2[i],
                                   macd[i],

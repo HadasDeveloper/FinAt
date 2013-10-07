@@ -40,7 +40,7 @@ namespace FinTA.Indicators
                     }
                     break;
                 case "1":
-                    for (int i = marketdata.Count - period2 - period3; i < marketdata.Count; i++)
+                    for (int i = marketdata.Count - period2*2 + 1 ; i < marketdata.Count; i++)
                     {
                         dates.Add(marketdata[i].Date);
                         closedPrice.Add(marketdata[i].ClosePrice);
@@ -52,6 +52,7 @@ namespace FinTA.Indicators
             DataTable ppo =  po.Calculate("0");
 
             for (int i = mode.Equals("0") ? 0 : dates.Count - 1 ; i < dates.Count; i++)
+            //for (int i = 0 ; i < dates.Count; i++)
             {
 
                 resultData.Add(new IndicatorsData
@@ -70,16 +71,21 @@ namespace FinTA.Indicators
                     Value = ppo.Rows[i].Field<double>("Histogram")
                 });
 
+                 
 
-                //FileLogWriter looger = new FileLogWriter();
-                //looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5}", ppo.Rows[i].Field<double>("EMAPeriod1"),
-                //              ppo.Rows[i].Field<double>("EMAPeriod2"),
-                //              ppo.Rows[i].Field<double>("MACD"),
-                //              ppo.Rows[i].Field<double>("PO"), 
-                //              ppo.Rows[i].Field<double>("SignalLine"),
-                //              ppo.Rows[i].Field<double>("Histogram")),
-                //              "FinTA"
-                //    );
+                FileLogWriter looger = new FileLogWriter();
+
+              
+
+                looger.WriteToLog(DateTime.Now, string.Format("{0},{1},{2},{3},{4},{5}", ppo.Rows[i].Field<double>("EMAPeriod1"),
+                              ppo.Rows[i].Field<double>("EMAPeriod2"),
+                              ppo.Rows[i].Field<double>("MACD"),
+                              ppo.Rows[i].Field<double>("PO"),
+                              ppo.Rows[i].Field<double>("SignalLine"),
+                              ppo.Rows[i].Field<double>("Histogram")),
+                              "FinTA" );
+
+                   
             }
 
              return resultData;
